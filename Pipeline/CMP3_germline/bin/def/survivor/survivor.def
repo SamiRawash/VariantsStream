@@ -1,0 +1,22 @@
+Bootstrap: docker
+
+From: ubuntu:20.04
+
+
+%post
+
+export DEBIAN_FRONTEND=noninteractive
+sw_f="/swf"
+mkdir $sw_f
+cd $sw_f
+apt-get update -y && apt-get -y install git tcl curl g++ libbz2-dev tcllib unzip zlib1g-dev liblzma-dev make wget tar bash nano libncurses-dev libdb-dev libexpat1-dev libbamtools-dev libbam-dev
+
+wget https://github.com/fritzsedlazeck/SURVIVOR/archive/master.tar.gz -O SURVIVOR.tar.gz
+tar xzvf SURVIVOR.tar.gz
+cd SURVIVOR-master/Debug/
+make
+
+
+ln -s /swf/SURVIVOR-master/Debug/SURVIVOR /usr/bin/SURVIVOR
+
+unset DEBIAN_FRONTEND

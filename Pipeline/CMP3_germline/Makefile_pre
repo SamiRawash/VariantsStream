@@ -1,0 +1,388 @@
+container: bin/def/GermlineGATK/GermlineGATK.sif bin/def/AnnotationFiltering/Python_3_11_4.sif \
+bin/def/smoove/smoove_latest.sif bin/def/sve/sve_latest.sif bin/def/MELT/MELT-2.2.2.sif \
+bin/def/parabricks_4.0/clara-parabricks_4.sif bin/def/SamBcfBedMultiqcTools/SamBcfBedMultiqcTools.sif \
+bin/def/SamBcfBed_Cov/SamBcfBed_Tools.sif bin/def/AnnotationFiltering/SnpEff5_1.sif \
+bin/def/AnnotationFiltering/Annovar.sif bin/def/VCF_AnnotationFiltering/VCF_AnnotationFiltering_v9.sif \
+bin/def/cnvkit/cnvkit.sif bin/def/cnvkit/r_with_ps.sif bin/def/manta/strelkaandmanta.sif \
+bin/def/survivor/survivor.sif bin/def/sv_cons_general_utilities/sv_cons_general_utilities.sif \
+bin/def/SVAFotate/SVAFotate.sif bin/def/annotSV/annotSV_3_2_3.sif \
+bin/def/Filtering/TSV_FilterAnnotation_MantaMelt_AnnotSV3.2.3_SVAfotate.sif \
+bin/def/spring/container_spring.sif
+
+download-database: bin/resource/resources_broad_hg38_v0_Mills_and_1000G_gold_standard.indels.hg38.vcf.gz \
+bin/resource/resources_broad_hg38_v0_hapmap_3.3.hg38.vcf.gz \
+bin/resource/resources_broad_hg38_v0_Homo_sapiens_assembly38.fasta \
+bin/resource/exclude_hg38.bed bin/resource/snpEff/data/GRCh38.99/cytoBand.txt.gz \
+bin/resource/snpEff/data/genomes/GRCh38.99.fa.gz bin/resource/annovar/humandb/hg38_dbnsfp_interpro_latest.txt \
+bin/resource/annovar/humandb/hg38_dbscsnv_latest.txt bin/resource/annovar/humandb/hg38_intervar_latest.txt \
+bin/resource/annovar/humandb/hg38_clinvar_latest.txt bin/resource/annovar/humandb/hg38_icgc_latest.txt \
+bin/resource/annovar/humandb/hg38_gnomad_genome_latest.txt bin/resource/annovar/humandb/hg38_dbnsfp_latest.txt \
+bin/resource/annovar/humandb/hg38_avsnp_latest.txt bin/resource/annovar/humandb/hg38_cytoBand.txt \
+bin/resource/annovar/humandb/hg38_refGene.txt bin/resource/annovar/humandb/hg38_knownGene.txt \
+bin/resource/Homo_sapiens_indices bin/resource/annovar/humandb/mv_refGeneMrna \
+completed
+
+
+
+all: nextflow bin/def/GermlineGATK/GermlineGATK.sif bin/def/AnnotationFiltering/Python_3_11_4.sif \
+bin/def/smoove/smoove_latest.sif bin/def/sve/sve_latest.sif bin/def/MELT/MELT-2.2.2.sif \
+bin/def/parabricks_4.0/clara-parabricks_4.sif bin/def/SamBcfBedMultiqcTools/SamBcfBedMultiqcTools.sif \
+bin/def/SamBcfBed_Cov/SamBcfBed_Tools.sif bin/def/AnnotationFiltering/SnpEff5_1.sif \
+bin/def/AnnotationFiltering/Annovar.sif bin/def/VCF_AnnotationFiltering/VCF_AnnotationFiltering_v9.sif \
+bin/def/cnvkit/cnvkit.sif bin/def/cnvkit/r_with_ps.sif bin/def/manta/strelkaandmanta.sif \
+bin/def/survivor/survivor.sif bin/def/sv_cons_general_utilities/sv_cons_general_utilities.sif \
+bin/def/SVAFotate/SVAFotate.sif bin/def/annotSV/annotSV_3_2_3.sif \
+bin/def/Filtering/TSV_FilterAnnotation_MantaMelt_AnnotSV3.2.3_SVAfotate.sif \
+bin/resource/resources_broad_hg38_v0_Mills_and_1000G_gold_standard.indels.hg38.vcf.gz \
+bin/resource/resources_broad_hg38_v0_hapmap_3.3.hg38.vcf.gz \
+bin/resource/resources_broad_hg38_v0_Homo_sapiens_assembly38.fasta \
+bin/resource/exclude_hg38.bed bin/resource/snpEff/data/GRCh38.99/cytoBand.txt.gz \
+bin/resource/snpEff/data/genomes/GRCh38.99.fa.gz bin/resource/annovar/humandb/hg38_dbnsfp_interpro_latest.txt \
+bin/resource/annovar/humandb/hg38_dbscsnv_latest.txt bin/resource/annovar/humandb/hg38_intervar_latest.txt \
+bin/resource/annovar/humandb/hg38_clinvar_latest.txt bin/resource/annovar/humandb/hg38_icgc_latest.txt \
+bin/resource/annovar/humandb/hg38_gnomad_genome_latest.txt bin/resource/annovar/humandb/hg38_dbnsfp_latest.txt \
+bin/resource/annovar/humandb/hg38_avsnp_latest.txt bin/resource/annovar/humandb/hg38_cytoBand.txt \
+bin/resource/annovar/humandb/hg38_refGene.txt bin/resource/annovar/humandb/hg38_knownGene.txt
+
+nextflow:
+	curl -s https://get.nextflow.io | bash
+
+
+
+bin/def/GermlineGATK/GermlineGATK.sif:
+	if [ ! -d &PATH_BIN_LOCAL/bin/def/GermlineGATK ]; then mkdir &PATH_BIN_LOCAL/bin/def/GermlineGATK ; fi
+#	sudo singularity build &PATH_BIN_LOCAL/bin/def/GermlineGATK/GermlineGATK.sif docker://broadinstitute/gatk 
+	if [ ! -f &PATH_BIN_LOCAL/bin/def/GermlineGATK/GermlineGATK.sif ]; then sudo singularity build &PATH_BIN_LOCAL/bin/def/GermlineGATK/GermlineGATK.sif docker://broadinstitute/gatk ; fi
+bin/def/AnnotationFiltering/Python_3_11_4.sif:
+	if [ ! -d &PATH_BIN_LOCAL/bin/def/AnnotationFiltering/ ]; then mkdir &PATH_BIN_LOCAL/bin/def/AnnotationFiltering/ ; fi
+	#sudo singularity build &PATH_BIN_LOCAL/bin/def/AnnotationFiltering/Python_3_11_4.sif docker://python:3.11.4 
+	if [ ! -f &PATH_BIN_LOCAL/bin/def/AnnotationFiltering/Python_3_11_4.sif ]; then sudo singularity build &PATH_BIN_LOCAL/bin/def/AnnotationFiltering/Python_3_11_4.sif docker://python:3.11.4 ; fi
+
+bin/def/smoove/smoove_latest.sif:
+	if [ ! -d &PATH_BIN_LOCAL/bin/def/smoove ]; then mkdir &PATH_BIN_LOCAL/bin/def/smoove ; fi
+	#sudo singularity build &PATH_BIN_LOCAL/bin/def/smoove/smoove_latest.sif docker://brentp/smoove 
+	if [ ! -f &PATH_BIN_LOCAL/bin/def/smoove/smoove_latest.sif ]; then sudo singularity build &PATH_BIN_LOCAL/bin/def/smoove/smoove_latest.sif docker://brentp/smoove ; fi
+
+bin/def/sve/sve_latest.sif:
+	if [ ! -d &PATH_BIN_LOCAL/bin/def/sve ]; then mkdir &PATH_BIN_LOCAL/bin/def/sve ; fi
+	#sudo singularity build &PATH_BIN_LOCAL/bin/def/sve/sve_latest.sif docker://wanpinglee/sve
+	if [ ! -f &PATH_BIN_LOCAL/bin/def/sve/sve_latest.sif ]; then sudo singularity build &PATH_BIN_LOCAL/bin/def/sve/sve_latest.sif docker://wanpinglee/sve ; fi 
+
+bin/def/parabricks_4.0/clara-parabricks_4.sif:
+	#sudo singularity build &PATH_BIN_LOCAL/bin/def/parabricks_4.0/clara-parabricks_4.sif &PATH_BIN_LOCAL/bin/def/parabricks_4.0/clara-parabricks4_zless.def
+	if [ ! -f &PATH_BIN_LOCAL/bin/def&PARABRICKS_PATH ] ; then sudo singularity build &PATH_BIN_LOCAL/bin/def&PARABRICKS_PATH &PATH_BIN_LOCAL/bin/def&PARABRICKS_PATH_DEF ; fi
+
+bin/def/SamBcfBedMultiqcTools/SamBcfBedMultiqcTools.sif:
+	#sudo singularity build &PATH_BIN_LOCAL/bin/def/SamBcfBedMultiqcTools/SamBcfBedMultiqcTools.sif &PATH_BIN_LOCAL/bin/def/SamBcfBedMultiqcTools/SamBcfBedMultiqcTools.def
+	if [ ! -f &PATH_BIN_LOCAL/bin/def/SamBcfBedMultiqcTools/SamBcfBedMultiqcTools.sif ]; then sudo singularity build &PATH_BIN_LOCAL/bin/def/SamBcfBedMultiqcTools/SamBcfBedMultiqcTools.sif &PATH_BIN_LOCAL/bin/def/SamBcfBedMultiqcTools/SamBcfBedMultiqcTools.def ; fi
+
+bin/def/SamBcfBed_Cov/SamBcfBed_Tools.sif:
+	#sudo singularity build &PATH_BIN_LOCAL/bin/def/SamBcfBed_Cov/SamBcfBed_Tools.sif &PATH_BIN_LOCAL/bin/def/SamBcfBed_Cov/SamBcfBed_Tools.def
+	if [ ! -f &PATH_BIN_LOCAL/bin/def/SamBcfBed_Cov/SamBcfBed_Tools.sif ]; then sudo singularity build &PATH_BIN_LOCAL/bin/def/SamBcfBed_Cov/SamBcfBed_Tools.sif &PATH_BIN_LOCAL/bin/def/SamBcfBed_Cov/SamBcfBed_Tools.def ; fi
+
+bin/def/AnnotationFiltering/SnpEff5_1.sif:
+	#sudo singularity build &PATH_BIN_LOCAL/bin/def/AnnotationFiltering/SnpEff5_1.sif &PATH_BIN_LOCAL/bin/def/AnnotationFiltering/SnpEff5_1.def
+	if [ ! -f &PATH_BIN_LOCAL/bin/def/AnnotationFiltering/SnpEff5_1.sif ]; then sudo singularity build &PATH_BIN_LOCAL/bin/def/AnnotationFiltering/SnpEff5_1.sif &PATH_BIN_LOCAL/bin/def/AnnotationFiltering/SnpEff5_1.def ; fi
+
+bin/def/AnnotationFiltering/Annovar.sif:
+	#sudo singularity build &PATH_BIN_LOCAL/bin/def/AnnotationFiltering/Annovar.sif &PATH_BIN_LOCAL/bin/def/AnnotationFiltering/Annovar.def
+	if [ ! -f &PATH_BIN_LOCAL/bin/def/AnnotationFiltering/Annovar.sif ]; then sudo singularity build &PATH_BIN_LOCAL/bin/def/AnnotationFiltering/Annovar.sif &PATH_BIN_LOCAL/bin/def/AnnotationFiltering/Annovar.def  ; fi
+
+bin/def/VCF_AnnotationFiltering/VCF_AnnotationFiltering_v9.sif:
+	#sudo singularity build &PATH_BIN_LOCAL/bin/def/VCF_AnnotationFiltering/VCF_AnnotationFiltering_v9.sif &PATH_BIN_LOCAL/bin/def/VCF_AnnotationFiltering/VCF_FilterAnnotation_v9.def
+	if [ ! -f &PATH_BIN_LOCAL/bin/def/VCF_AnnotationFiltering/VCF_AnnotationFiltering_v9.sif ]; then sudo singularity build &PATH_BIN_LOCAL/bin/def/VCF_AnnotationFiltering/VCF_AnnotationFiltering_v9.sif &PATH_BIN_LOCAL/bin/def/VCF_AnnotationFiltering/VCF_FilterAnnotation_v9.def  ; fi
+
+bin/def/cnvkit/cnvkit.sif:
+	#sudo singularity build &PATH_BIN_LOCAL/bin/def/cnvkit/cnvkit.sif &PATH_BIN_LOCAL/bin/def/cnvkit/cnvkit.def 
+	if [ ! -f &PATH_BIN_LOCAL/bin/def/cnvkit/cnvkit.sif ]; then sudo singularity build &PATH_BIN_LOCAL/bin/def/cnvkit/cnvkit.sif &PATH_BIN_LOCAL/bin/def/cnvkit/cnvkit.def  ; fi
+
+bin/def/cnvkit/r_with_ps.sif:
+	#sudo singularity build &PATH_BIN_LOCAL/bin/def/cnvkit/r_with_ps.sif &PATH_BIN_LOCAL/bin/def/cnvkit/cnvkit_plot.def
+	if [ ! -f &PATH_BIN_LOCAL/bin/def/cnvkit/r_with_ps.sif ]; then sudo singularity build &PATH_BIN_LOCAL/bin/def/cnvkit/r_with_ps.sif &PATH_BIN_LOCAL/bin/def/cnvkit/cnvkit_plot.def  ; fi
+
+bin/def/manta/strelkaandmanta.sif:
+	#sudo singularity build &PATH_BIN_LOCAL/bin/def/manta/strelkaandmanta.sif &PATH_BIN_LOCAL/bin/def/manta/strelkaandmanta.def 
+	if [ ! -f &PATH_BIN_LOCAL/bin/def/manta/strelkaandmanta.sif ]; then sudo singularity build &PATH_BIN_LOCAL/bin/def/manta/strelkaandmanta.sif &PATH_BIN_LOCAL/bin/def/manta/strelkaandmanta.def  ; fi
+
+bin/def/survivor/survivor.sif:
+	#sudo singularity build &PATH_BIN_LOCAL/bin/def/survivor/survivor.sif &PATH_BIN_LOCAL/bin/def/survivor/survivor.def
+	if [ ! -f &PATH_BIN_LOCAL/bin/def/survivor/survivor.sif ]; then sudo singularity build &PATH_BIN_LOCAL/bin/def/survivor/survivor.sif &PATH_BIN_LOCAL/bin/def/survivor/survivor.def  ; fi
+
+bin/def/sv_cons_general_utilities/sv_cons_general_utilities.sif:
+	#sudo singularity build &PATH_BIN_LOCAL/bin/def/sv_cons_general_utilities/sv_cons_general_utilities.sif &PATH_BIN_LOCAL/bin/def/sv_cons_general_utilities/sv_cons_general_utilities.def
+	if [ ! -f &PATH_BIN_LOCAL/bin/def/sv_cons_general_utilities/sv_cons_general_utilities.sif ]; then sudo singularity build &PATH_BIN_LOCAL/bin/def/sv_cons_general_utilities/sv_cons_general_utilities.sif &PATH_BIN_LOCAL/bin/def/sv_cons_general_utilities/sv_cons_general_utilities.def ; fi 
+
+bin/def/SVAFotate/SVAFotate.sif:
+	#sudo singularity build &PATH_BIN_LOCAL/bin/def/SVAFotate/SVAFotate.sif &PATH_BIN_LOCAL/bin/def/SVAFotate/SVAFotate.def
+	if [ ! -f &PATH_BIN_LOCAL/bin/def/SVAFotate/SVAFotate.sif ]; then sudo singularity build &PATH_BIN_LOCAL/bin/def/SVAFotate/SVAFotate.sif &PATH_BIN_LOCAL/bin/def/SVAFotate/SVAFotate.def ; fi 
+
+bin/def/annotSV/annotSV_3_2_3.sif:
+	#sudo singularity build &PATH_BIN_LOCAL/bin/def/annotSV/annotSV_3_2_3.sif &PATH_BIN_LOCAL/bin/def/annotSV/annotSV_3_2_3.def
+	if [ ! -f &PATH_BIN_LOCAL/bin/def/annotSV/annotSV_3_2_3.sif ]; then sudo singularity build &PATH_BIN_LOCAL/bin/def/annotSV/annotSV_3_2_3.sif &PATH_BIN_LOCAL/bin/def/annotSV/annotSV_3_2_3.def ; fi
+
+bin/def/Filtering/TSV_FilterAnnotation_MantaMelt_AnnotSV3.2.3_SVAfotate.sif:
+	#sudo singularity build &PATH_BIN_LOCAL/bin/def/Filtering/TSV_FilterAnnotation_MantaMelt_AnnotSV3.2.3_SVAfotate.sif &PATH_BIN_LOCAL/bin/def/Filtering/TSV_FilterAnnotation_MantaMelt_AnnotSV3.2.3_SVAfotate.def
+	if [ ! -f &PATH_BIN_LOCAL/bin/def/Filtering/TSV_FilterAnnotation_MantaMelt_AnnotSV3.2.3_SVAfotate.sif ]; then sudo singularity build &PATH_BIN_LOCAL/bin/def/Filtering/TSV_FilterAnnotation_MantaMelt_AnnotSV3.2.3_SVAfotate.sif &PATH_BIN_LOCAL/bin/def/Filtering/TSV_FilterAnnotation_MantaMelt_AnnotSV3.2.3_SVAfotate.def ; fi
+
+bin/def/MELT/MELT-2.2.2.sif :
+	#sudo singularity build &PATH_BIN_LOCAL/bin/def/MELT/MELT-2.2.2.sif &PATH_BIN_LOCAL/bin/def/MELT/Melt_container.def
+	if [ ! -f &PATH_BIN_LOCAL/bin/def/MELT/MELT-2.2.2.sif ]; then sudo singularity build &PATH_BIN_LOCAL/bin/def/MELT/MELT-2.2.2.sif &PATH_BIN_LOCAL/bin/def/MELT/Melt_container.def ; fi
+
+bin/def/spring/container_spring.sif:
+	if [ ! -f &PATH_BIN_LOCAL/bin/def/spring/container_spring.sif ]; then sudo singularity build &PATH_BIN_LOCAL/bin/def/spring/container_spring.sif &PATH_BIN_LOCAL/bin/def/spring/container_spring.def ; fi
+
+bin/resource/resources_broad_hg38_v0_Mills_and_1000G_gold_standard.indels.hg38.vcf.gz:
+	if [ ! -d &PATH_BIN_HPC/bin/resource ]; then mkdir &PATH_BIN_HPC/bin/resource ; fi 
+	if [ ! -f &PATH_BIN_HPC/bin/resource/resources_broad_hg38_v0_Mills_and_1000G_gold_standard.indels.hg38.vcf.gz ]; then \
+	curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz >  &PATH_BIN_HPC/bin/resource/resources_broad_hg38_v0_Mills_and_1000G_gold_standard.indels.hg38.vcf.gz; fi
+	if [ ! -f &PATH_BIN_HPC/bin/resource/resources_broad_hg38_v0_Mills_and_1000G_gold_standard.indels.hg38.vcf.gz.tbi ]; then \
+	curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz.tbi > &PATH_BIN_HPC/bin/resource/resources_broad_hg38_v0_Mills_and_1000G_gold_standard.indels.hg38.vcf.gz.tbi; fi
+
+bin/resource/resources_broad_hg38_v0_hapmap_3.3.hg38.vcf.gz:
+	if [ ! -d &PATH_BIN_HPC/bin/resource ]; then mkdir &PATH_BIN_HPC/bin/resource ; fi 
+	if [ ! -f  &PATH_BIN_HPC/bin/resource/resources_broad_hg38_v0_hapmap_3.3.hg38.vcf.gz ]; then \
+	curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/hapmap_3.3.hg38.vcf.gz > &PATH_BIN_HPC/bin/resource/resources_broad_hg38_v0_hapmap_3.3.hg38.vcf.gz; fi
+	if [ ! -f &PATH_BIN_HPC/bin/resource/resources_broad_hg38_v0_hapmap_3.3.hg38.vcf.gz.tbi ]; then \
+	curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/hapmap_3.3.hg38.vcf.gz.tbi > &PATH_BIN_HPC/bin/resource/resources_broad_hg38_v0_hapmap_3.3.hg38.vcf.gz.tbi; fi
+
+bin/resource/resources_broad_hg38_v0_Homo_sapiens_assembly38.fasta:
+	if [ ! -d &PATH_BIN_HPC/bin/resource ]; then mkdir &PATH_BIN_HPC/bin/resource ; fi
+	if [ ! -f  &PATH_BIN_HPC/bin/resource/resources_broad_hg38_v0_Homo_sapiens_assembly38.fasta ]; then \
+	curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta > &PATH_BIN_HPC/bin/resource/resources_broad_hg38_v0_Homo_sapiens_assembly38.fasta; fi
+	if [ ! -f  &PATH_BIN_HPC/bin/resource/resources_broad_hg38_v0_Homo_sapiens_assembly38.fasta.fai ]; then \
+	curl https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta.fai > &PATH_BIN_HPC/bin/resource/resources_broad_hg38_v0_Homo_sapiens_assembly38.fasta.fai; fi
+
+bin/resource/exclude_hg38.bed:
+	if [ ! -d &PATH_BIN_HPC/bin/resource ]; then mkdir &PATH_BIN_HPC/bin/resource ; fi 
+	if [ ! -f  &PATH_BIN_HPC/bin/resource/exclude_hg38.bed ]; then \
+	curl https://raw.githubusercontent.com/hall-lab/speedseq/master/annotations/exclude.cnvnator_100bp.GRCh38.20170403.bed > &PATH_BIN_HPC/bin/resource/exclude_hg38.bed; fi
+
+bin/resource/snpEff/data/GRCh38.99/cytoBand.txt.gz:
+	if [ ! -d &PATH_BIN_HPC/bin/resource/snpEff ]; then \
+		mkdir -p &PATH_BIN_HPC/bin/resource/snpEff ; fi
+	# Download the ZIP file if it does not exist
+	if [ ! -f &PATH_BIN_HPC/bin/resource/snpEff/snpEff_v5_0_GRCh38.99.zip ]; then \
+		curl -o &PATH_BIN_HPC/bin/resource/snpEff/snpEff_v5_0_GRCh38.99.zip https://snpeff.blob.core.windows.net/databases/v5_0/snpEff_v5_0_GRCh38.99.zip ; fi
+	# Check if the extracted data directory does not exist and unzip if necessary
+	if [ ! -d &PATH_BIN_HPC/bin/resource/snpEff/data/GRCh38.99 ]; then \
+		unzip -o &PATH_BIN_HPC/bin/resource/snpEff/snpEff_v5_0_GRCh38.99.zip -d &PATH_BIN_HPC/bin/resource/snpEff/ ; fi
+bin/resource/snpEff/data/genomes/GRCh38.99.fa.gz:
+	if [ ! -d &PATH_BIN_HPC/bin/resource/snpEff/data/ ]; then mkdir &PATH_BIN_HPC/bin/resource/snpEff/data/ ; fi
+	if [ ! -d &PATH_BIN_HPC/bin/resource/snpEff/data/genomes/ ]; then mkdir &PATH_BIN_HPC/bin/resource/snpEff/data/genomes/ ; fi
+	if [ ! -f  &PATH_BIN_HPC/bin/resource/snpEff/data/genomes/GRCh38.99.fa.gz ]; then \
+	curl https://ftp.ensembl.org/pub/release-99/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.toplevel.fa.gz > &PATH_BIN_HPC/bin/resource/snpEff/data/genomes/GRCh38.99.fa.gz; fi
+
+bin/resource/annovar/humandb/hg38_knownGene.txt: #bin/def/AnnotationFiltering/Annovar.sif
+	if [ ! -d &PATH_BIN_HPC/bin/resource/annovar ] ; then mkdir &PATH_BIN_HPC/bin/resource/annovar ; fi
+	if [ ! -d &PATH_BIN_HPC/bin/resource/annovar/humandb ] ; then mkdir &PATH_BIN_HPC/bin/resource/annovar/humandb ; fi
+	singularity exec --bind "${PWD}" &PATH_BIN_HPC/bin/def/AnnotationFiltering/Annovar.sif \
+		perl /usr/local/bin/annovar/annotate_variation.pl \
+		-buildver hg38 \
+		-downdb \
+		-webfrom \
+		annovar \
+		knownGene \
+		&PATH_BIN_HPC/bin/resource/annovar/humandb/
+
+bin/resource/annovar/humandb/hg38_refGene.txt: #bin/def/AnnotationFiltering/Annovar.sif
+	if [ ! -d &PATH_BIN_HPC/bin/resource/annovar ] ; then mkdir &PATH_BIN_HPC/bin/resource/annovar ; fi
+	if [ ! -d &PATH_BIN_HPC/bin/resource/annovar/humandb ] ; then mkdir &PATH_BIN_HPC/bin/resource/annovar/humandb ; fi
+	if [ ! -f &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_refGene_latest.txt ]; then \
+	singularity exec --bind "${PWD}" &PATH_BIN_HPC/bin/def/AnnotationFiltering/Annovar.sif \
+		perl /usr/local/bin/annovar/annotate_variation.pl \
+		-buildver hg38 \
+		-downdb \
+		-webfrom \
+		annovar \
+		refGene \
+		&PATH_BIN_HPC/bin/resource/annovar/humandb/  ;\
+	mv &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_refGene.txt &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_refGene_latest.txt; fi
+
+bin/resource/annovar/humandb/hg38_cytoBand.txt: #bin/def/AnnotationFiltering/Annovar.sif
+	if [ ! -d &PATH_BIN_HPC/bin/resource/annovar ] ; then mkdir &PATH_BIN_HPC/bin/resource/annovar ; fi
+	if [ ! -d &PATH_BIN_HPC/bin/resource/annovar/humandb ] ; then mkdir &PATH_BIN_HPC/bin/resource/annovar/humandb ; fi
+	singularity exec --bind "${PWD}" &PATH_BIN_HPC/bin/def/AnnotationFiltering/Annovar.sif \
+		perl /usr/local/bin/annovar/annotate_variation.pl \
+		-buildver hg38 \
+		-downdb \
+		cytoBand \
+		&PATH_BIN_HPC/bin/resource/annovar/humandb/
+
+bin/resource/annovar/humandb/hg38_avsnp_latest.txt: #bin/def/AnnotationFiltering/Annovar.sif
+	if [ ! -d &PATH_BIN_HPC/bin/resource/annovar ] ; then mkdir &PATH_BIN_HPC/bin/resource/annovar ; fi
+	if [ ! -d &PATH_BIN_HPC/bin/resource/annovar/humandb ] ; then mkdir &PATH_BIN_HPC/bin/resource/annovar/humandb ; fi
+	if [ ! -f &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_avsnp_latest.txt ] || [ ! -f &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_avsnp_latest.txt.idx ]; then \
+	singularity exec --bind "${PWD}" &PATH_BIN_HPC/bin/def/AnnotationFiltering/Annovar.sif \
+		perl /usr/local/bin/annovar/annotate_variation.pl \
+		-buildver hg38 \
+		-downdb \
+		-webfrom \
+		annovar \
+		avsnp150 \
+		&PATH_BIN_HPC/bin/resource/annovar/humandb/ ;\
+	mv &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_avsnp150.txt &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_avsnp_latest.txt ;\
+	mv &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_avsnp150.txt.idx &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_avsnp_latest.txt.idx; fi
+
+bin/resource/annovar/humandb/hg38_dbnsfp_latest.txt: #bin/def/AnnotationFiltering/Annovar.sif
+	if [ ! -d &PATH_BIN_HPC/bin/resource/annovar ] ; then mkdir &PATH_BIN_HPC/bin/resource/annovar ; fi
+	if [ ! -d &PATH_BIN_HPC/bin/resource/annovar/humandb ] ; then mkdir &PATH_BIN_HPC/bin/resource/annovar/humandb ; fi
+	if [ ! -f &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_dbnsfp_latest.txt ] || [ ! -f &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_dbnsfp_latest.txt.idx ]; then \
+	singularity exec --bind "${PWD}" &PATH_BIN_HPC/bin/def/AnnotationFiltering/Annovar.sif \
+		perl /usr/local/bin/annovar/annotate_variation.pl \
+		-buildver hg38 \
+		-downdb \
+		-webfrom \
+		annovar \
+		dbnsfp42a \
+		&PATH_BIN_HPC/bin/resource/annovar/humandb/ ;\
+	mv &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_dbnsfp42a.txt &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_dbnsfp_latest.txt ;\
+	mv &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_dbnsfp42a.txt.idx &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_dbnsfp_latest.txt.idx; fi
+
+
+bin/resource/annovar/humandb/hg38_gnomad_genome_latest.txt: #bin/def/AnnotationFiltering/Annovar.sif
+	if [ ! -d &PATH_BIN_HPC/bin/resource/annovar ] ; then mkdir &PATH_BIN_HPC/bin/resource/annovar ; fi
+	if [ ! -d &PATH_BIN_HPC/bin/resource/annovar/humandb ] ; then mkdir &PATH_BIN_HPC/bin/resource/annovar/humandb ; fi
+	if [ ! -f &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_gnomad_genome_latest.txt ] || [ ! -f &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_gnomad_genome_latest.txt.idx ]; then \
+	singularity exec --bind "${PWD}" &PATH_BIN_HPC/bin/def/AnnotationFiltering/Annovar.sif \
+		perl /usr/local/bin/annovar/annotate_variation.pl \
+		-buildver hg38 \
+		-downdb \
+		-webfrom \
+		annovar \
+		gnomad312_genome \
+		&PATH_BIN_HPC/bin/resource/annovar/humandb/ ;\
+	mv &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_gnomad312_genome.txt &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_gnomad_genome_latest.txt ;\
+	mv &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_gnomad312_genome.txt.idx &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_gnomad_genome_latest.txt.idx; fi
+
+bin/resource/annovar/humandb/hg38_icgc_latest.txt: #bin/def/AnnotationFiltering/Annovar.sif
+	if [ ! -d &PATH_BIN_HPC/bin/resource/annovar ] ; then mkdir &PATH_BIN_HPC/bin/resource/annovar ; fi
+	if [ ! -d &PATH_BIN_HPC/bin/resource/annovar/humandb ] ; then mkdir &PATH_BIN_HPC/bin/resource/annovar/humandb ; fi
+	if [ ! -f &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_icgc_latest.txt ] || [ ! -f &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_icgc_latest.txt.idx ]; then \
+	singularity exec --bind "${PWD}" &PATH_BIN_HPC/bin/def/AnnotationFiltering/Annovar.sif \
+		perl /usr/local/bin/annovar/annotate_variation.pl \
+		-buildver hg38 \
+		-downdb \
+		-webfrom \
+		annovar \
+		icgc28 \
+		&PATH_BIN_HPC/bin/resource/annovar/humandb/ ;\
+	mv &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_icgc28.txt &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_icgc_latest.txt ;\
+	mv &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_icgc28.txt.idx &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_icgc_latest.txt.idx; fi
+
+bin/resource/annovar/humandb/hg38_clinvar_latest.txt: #bin/def/AnnotationFiltering/Annovar.sif
+	if [ ! -d &PATH_BIN_HPC/bin/resource/annovar ] ; then mkdir &PATH_BIN_HPC/bin/resource/annovar ; fi
+	if [ ! -d &PATH_BIN_HPC/bin/resource/annovar/humandb ] ; then mkdir &PATH_BIN_HPC/bin/resource/annovar/humandb ; fi
+	if [ ! -f &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_clinvar_latest.txt ] || [ ! -f &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_clinvar_latest.txt.idx ]; then \
+	singularity exec --bind "${PWD}" &PATH_BIN_HPC/bin/def/AnnotationFiltering/Annovar.sif \
+		perl /usr/local/bin/annovar/annotate_variation.pl \
+		-buildver hg38 \
+		-downdb \
+		-webfrom \
+		annovar \
+		clinvar_20221231 \
+		&PATH_BIN_HPC/bin/resource/annovar/humandb/ ;\
+	mv &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_clinvar_20221231.txt &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_clinvar_latest.txt ;\
+	mv &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_clinvar_20221231.txt.idx &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_clinvar_latest.txt.idx; fi
+
+bin/resource/annovar/humandb/hg38_intervar_latest.txt: #bin/def/AnnotationFiltering/Annovar.sif
+	if [ ! -d &PATH_BIN_HPC/bin/resource/annovar ] ; then mkdir &PATH_BIN_HPC/bin/resource/annovar ; fi
+	if [ ! -d &PATH_BIN_HPC/bin/resource/annovar/humandb ] ; then mkdir &PATH_BIN_HPC/bin/resource/annovar/humandb ; fi
+	if [ ! -f &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_intervar_latest.txt ] || [ ! -f &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_intervar_latest.txt.idx ]; then \
+	singularity exec --bind "${PWD}" &PATH_BIN_HPC/bin/def/AnnotationFiltering/Annovar.sif \
+		perl /usr/local/bin/annovar/annotate_variation.pl \
+		-buildver hg38 \
+		-downdb \
+		-webfrom \
+		annovar \
+		intervar_20180118 \
+		&PATH_BIN_HPC/bin/resource/annovar/humandb/ ;\
+	mv &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_intervar_20180118.txt &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_intervar_latest.txt ;\
+	mv &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_intervar_20180118.txt.idx &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_intervar_latest.txt.idx; fi
+
+bin/resource/annovar/humandb/hg38_dbscsnv_latest.txt: #bin/def/AnnotationFiltering/Annovar.sif
+	if [ ! -d &PATH_BIN_HPC/bin/resource/annovar ] ; then mkdir &PATH_BIN_HPC/bin/resource/annovar ; fi
+	if [ ! -d &PATH_BIN_HPC/bin/resource/annovar/humandb ] ; then mkdir &PATH_BIN_HPC/bin/resource/annovar/humandb ; fi
+	if [ ! -f &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_dbscsnv_latest.txt ] || [ ! -f &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_dbscsnv_latest.txt.idx ]; then \
+	singularity exec --bind "${PWD}" &PATH_BIN_HPC/bin/def/AnnotationFiltering/Annovar.sif \
+		perl /usr/local/bin/annovar/annotate_variation.pl \
+		-buildver hg38 \
+		-downdb \
+		-webfrom \
+		annovar \
+		dbscsnv11 \
+		&PATH_BIN_HPC/bin/resource/annovar/humandb/ ;\
+	mv &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_dbscsnv11.txt &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_dbscsnv_latest.txt ;\
+	mv &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_dbscsnv11.txt.idx &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_dbscsnv_latest.txt.idx; fi
+
+bin/resource/annovar/humandb/hg38_dbnsfp_interpro_latest.txt : #bin/def/AnnotationFiltering/Annovar.sif
+	if [ ! -d &PATH_BIN_HPC/bin/resource/annovar ] ; then mkdir &PATH_BIN_HPC/bin/resource/annovar ; fi
+	if [ ! -d &PATH_BIN_HPC/bin/resource/annovar/humandb ] ; then mkdir &PATH_BIN_HPC/bin/resource/annovar/humandb ; fi
+	if [ ! -f &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_dbnsfp_interpro_latest.txt ] || [ ! -f &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_dbnsfp_interpro_latest.txt.idx ]; then \
+	singularity exec --bind "${PWD}" &PATH_BIN_HPC/bin/def/AnnotationFiltering/Annovar.sif \
+		perl /usr/local/bin/annovar/annotate_variation.pl \
+		-buildver hg38 \
+		-downdb \
+		-webfrom \
+		annovar \
+		dbnsfp31a_interpro \
+		&PATH_BIN_HPC/bin/resource/annovar/humandb/ ;\
+	mv &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_dbnsfp31a_interpro.txt &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_dbnsfp_interpro_latest.txt ;\
+	mv &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_dbnsfp31a_interpro.txt.idx &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_dbnsfp_interpro_latest.txt.idx; fi
+
+bin/resource/Homo_sapiens_indices:
+	curl -o &PATH_BIN_HPC/bin/resource/resources_broad_hg38_v0_Homo_sapiens_assembly38.fasta.sa https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta.64.sa
+	curl -o &PATH_BIN_HPC/bin/resource/resources_broad_hg38_v0_Homo_sapiens_assembly38.fasta.pac https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta.64.pac
+	curl -o &PATH_BIN_HPC/bin/resource/resources_broad_hg38_v0_Homo_sapiens_assembly38.fasta.bwt https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta.64.bwt
+	curl -o &PATH_BIN_HPC/bin/resource/resources_broad_hg38_v0_Homo_sapiens_assembly38.fasta.ann https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta.64.ann
+	curl -o &PATH_BIN_HPC/bin/resource/resources_broad_hg38_v0_Homo_sapiens_assembly38.fasta.amb https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.fasta.64.amb
+
+bin/resource/annovar/humandb/mv_refGeneMrna:
+	if [ ! -f &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_refGene_latestMrna.fa ]; then ln &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_refGeneMrna.fa &PATH_BIN_HPC/bin/resource/annovar/humandb/hg38_refGene_latestMrna.fa; fi
+completed:
+	echo "The database has been downloaded successfully."
+
+clean:
+	rm -r nextflow bin/def/GermlineGATK/GermlineGATK.sif bin/def/AnnotationFiltering/Python_3_11_4.sif \
+		bin/def/smoove/smoove_latest.sif bin/def/sve/sve_latest.sif bin/def/MELT/MELT-2.2.2.sif \
+		bin/def/parabricks_4.1/clara-parabricks4_zless.sif \
+		bin/def/SamBcfBedMultiqcTools/SamBcfBedMultiqcTools.sif bin/def/SamBcfBed_Cov/SamBcfBed_Tools.sif \
+		bin/def/AnnotationFiltering/SnpEff5_1.sif bin/def/AnnotationFiltering/Annovar.sif \
+		bin/def/VCF_AnnotationFiltering/VCF_AnnotationFiltering_v9.sif bin/def/cnvkit/cnvkit.sif \
+		bin/def/cnvkit/r_with_ps.sif bin/def/manta/strelkaandmanta.sif bin/def/survivor/survivor.sif \
+		bin/def/sv_cons_general_utilities/sv_cons_general_utilities.sif \
+		bin/def/SVAFotate/SVAFotate.sif bin/def/annotSV/annotSV_3_2_3.sif \
+		bin/def/Filtering/TSV_FilterAnnotation_MantaMelt_AnnotSV3.2.3_SVAfotate.sif \
+		bin/resource/resources_broad_hg38_v0_Mills_and_1000G_gold_standard.indels.hg38.vcf.gz \
+		bin/resource/resources_broad_hg38_v0_hapmap_3.3.hg38.vcf.gz \
+		bin/resource/resources_broad_hg38_v0_Homo_sapiens_assembly38.fasta \
+		bin/resource/exclude_hg38.bed bin/resource/snpEff/data/GRCh38.99/cytoBand.txt.gz \
+		bin/resource/snpEff/data/genomes/GRCh38.99.fa.gz bin/resource/annovar/humandb/hg38_dbnsfp_interpro_latest.txt \
+		bin/resource/annovar/humandb/hg38_dbscsnv_latest.txt bin/resource/annovar/humandb/hg38_intervar_latest.txt \
+		bin/resource/annovar/humandb/hg38_clinvar_latest.txt bin/resource/annovar/humandb/hg38_icgc_latest.txt \
+		bin/resource/annovar/humandb/hg38_gnomad_genome_latest.txt bin/resource/annovar/humandb/hg38_dbnsfp_latest.txt \
+		bin/resource/annovar/humandb/hg38_avsnp_latest.txt bin/resource/annovar/humandb/hg38_cytoBand.txt \
+		bin/resource/annovar/humandb/hg38_refGene.txt bin/resource/annovar/humandb/hg38_knownGene.txt
+
+clean_container:
+	rm -r nextflow bin/def/GermlineGATK/GermlineGATK.sif bin/def/AnnotationFiltering/Python_3_11_4.sif \
+		bin/def/smoove/smoove_latest.sif bin/def/sve/sve_latest.sif bin/def/MELT/MELT-2.2.2.sif \
+		bin/def/parabricks_4.1/clara-parabricks4_zless.sif \
+		bin/def/SamBcfBedMultiqcTools/SamBcfBedMultiqcTools.sif bin/def/SamBcfBed_Cov/SamBcfBed_Tools.sif \
+		bin/def/AnnotationFiltering/SnpEff5_1.sif bin/def/AnnotationFiltering/Annovar.sif \
+		bin/def/VCF_AnnotationFiltering/VCF_AnnotationFiltering_v9.sif bin/def/cnvkit/cnvkit.sif \
+		bin/def/cnvkit/r_with_ps.sif bin/def/manta/strelkaandmanta.sif bin/def/survivor/survivor.sif \
+		bin/def/sv_cons_general_utilities/sv_cons_general_utilities.sif \
+		bin/def/SVAFotate/SVAFotate.sif bin/def/annotSV/annotSV_3_2_3.sif \
+		bin/def/Filtering/TSV_FilterAnnotation_MantaMelt_AnnotSV3.2.3_SVAfotate.sif 
+
+clean_db:
+	rm -r bin/resource/resources_broad_hg38_v0_Mills_and_1000G_gold_standard.indels.hg38.vcf.gz \
+		bin/resource/resources_broad_hg38_v0_hapmap_3.3.hg38.vcf.gz \
+		bin/resource/resources_broad_hg38_v0_Homo_sapiens_assembly38.fasta \
+		bin/resource/exclude_hg38.bed bin/resource/snpEff/data/GRCh38.99/cytoBand.txt.gz \
+		bin/resource/snpEff/data/genomes/GRCh38.99.fa.gz bin/resource/annovar/humandb/hg38_dbnsfp_interpro_latest.txt \
+		bin/resource/annovar/humandb/hg38_dbscsnv_latest.txt bin/resource/annovar/humandb/hg38_intervar_latest.txt \
+		bin/resource/annovar/humandb/hg38_clinvar_latest.txt bin/resource/annovar/humandb/hg38_icgc_latest.txt \
+		bin/resource/annovar/humandb/hg38_gnomad_genome_latest.txt bin/resource/annovar/humandb/hg38_dbnsfp_latest.txt \
+		bin/resource/annovar/humandb/hg38_avsnp_latest.txt bin/resource/annovar/humandb/hg38_cytoBand.txt \
+		bin/resource/annovar/humandb/hg38_refGene.txt bin/resource/annovar/humandb/hg38_knownGene.txt

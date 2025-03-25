@@ -1,0 +1,76 @@
+############################################ CONFIGURATION FILE FOR VARIANTSSTREAM ############################################
+
+
+###################### SOFTWARE CONFIGURATION ######################
+# "false" for two-actors scenario, true otherwise
+three_actors = ""
+
+# "true" to enable retrival of FASTQ files compressed with Spring
+move_fastqs = ""  
+
+# In the three-actors scenario, set to "true" if direct ssh connection between OC and HPC exists
+ssh_oc_hpc = "false"  
+
+
+
+###################### HPC ######################
+#### PERSONAL
+
+# Username on the HPC
+hpc_username = ""
+
+# User's email
+email = ""
+
+# Project name (for PBS configuration)
+project_name = ""
+
+# Path to the directory where the pipeline shall be installed
+hpc_work_dir = ""
+
+# Path to the directory where temporarily files are stored
+hpc_output_dir = ""     
+
+# In the two-actors scenario, path to the directory of the FASTQ.
+# In the three-actors scenario, path to the directory where fastqs shall be temporarily stored 
+hpc_fastqs_folder = hpc_work_dir + "" 
+
+
+#### TECHNICAL
+
+# HPC hostname
+hpc_hostname = ""
+
+# HPC queue
+HPC_queue = "" 
+
+# Apptainer module
+singularity_module = ""
+
+# Conda module
+conda_module = ""
+
+# Parabricks version: "4.0" or "4.1" (which requires gpu a100)
+parabricks_version = ""
+
+# Queue with gpu
+hpc_queue_parabricks = ""                
+
+
+
+###################### OC ######################
+### To be filled in the three-actors scenario
+
+# Username
+oc_username = "" 
+
+# Hostname
+oc_hostname = "" 
+
+# Path to the working directory
+oc_work_dir = "" 
+
+# Path to the directory where the FASTQ are stored
+oc_fastq_dir = "" 
+
+

@@ -1,0 +1,20 @@
+Bootstrap: docker 
+From: r-base:4.4.1
+
+%post
+    apt-get update && apt-get -y upgrade
+    apt-get -y install libcurl4-openssl-dev
+    apt-get -y install libssl-dev
+    apt-get -y install pandoc
+    apt-get -y install fontconfig
+    apt-get -y install libfontconfig1-dev
+    apt-get -y install pkg-config
+    apt-get -y install libxml2 libxml2-dev libtiff-dev libfftw3-dev libtiff5-dev libsndfile1
+    apt-get -y install procps 
+    Rscript -e 'install.packages("BiocManager")'
+    Rscript -e 'BiocManager::install("MutationalPatterns")'
+    Rscript -e 'install.packages("ggplot2")'
+    Rscript -e 'install.packages("stringr")'
+    Rscript -e 'install.packages("data.table")'
+%environment
+    export PKG_CONFIG_PATH=/usr/share/doc/fontconfig

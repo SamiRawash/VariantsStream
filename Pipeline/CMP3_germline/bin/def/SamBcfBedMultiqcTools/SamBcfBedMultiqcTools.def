@@ -1,0 +1,57 @@
+BootStrap: library
+
+From: ubuntu:20.04
+%files
+
+%post
+    echo "deb http://it.archive.ubuntu.com/ubuntu/ focal main restricted" > /etc/apt/sources.list
+    echo "deb http://it.archive.ubuntu.com/ubuntu/ focal-updates main restricted" >> /etc/apt/sources.list
+    echo "deb http://it.archive.ubuntu.com/ubuntu/ focal universe" >> /etc/apt/sources.list
+    echo "deb http://it.archive.ubuntu.com/ubuntu/ focal-updates universe" >> /etc/apt/sources.list
+    echo "deb http://it.archive.ubuntu.com/ubuntu/ focal multiverse" >> /etc/apt/sources.list
+
+    export MYTMPDIR=/mytemporary
+
+    echo "### Create new folders for binding"
+    mkdir /home/mydata /home/myresults
+    #$MYTMPDIR
+
+    export PATH=$PATH:/sratoolkit/bin
+
+
+    TZ=Asia/Dubai
+    ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+    echo "### Updating the package list"
+    apt-get -y update && apt -y upgrade
+    apt-get -y install gcc g++ git make automake autoconf python3 samtools bcftools bedtools sqlite3 libsqlite3-dev wget python3-pybedtools python-pybedtools-doc python3-pip
+    pip install --upgrade typing_extensions
+    pip install multiqc==1.19
+    pip install numpy --upgrade
+    pip install matplotlib
+
+    apt clean
+
+    echo "### Create CONTAINER_DATE env variable"
+    CONTAINER_DATE=$( date )
+    echo "export CONTAINER_DATE=\"${CONTAINER_DATE}\"" >> $SINGULARITY_ENVIRONMENT
+
+%environment
+        export TMPDIR=/home/mytmp
+
+%test
+    osname=$( uname )
+    echo "${osname} created ${CONTAINER_DATE}"
+
+    echo "##### SAMTOOLS #####"
+    samtools --version
+
+    echo "##### BCFTOOLS #####"
+    bcftools --version
+
+    echo "##### BEDTOOLS #####"
+    bedtools --version
+
+%runscript
+        /home/myresults
+        bcftools $@

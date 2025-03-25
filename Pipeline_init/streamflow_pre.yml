@@ -1,0 +1,48 @@
+version: v1.0
+workflows:
+  test:
+    type: cwl
+    config:
+      file: cwl/cwl.cwl
+      settings: cwl/config_cwl.yml
+    # The cluster is deployed and undeployed two times: one for the 'pbs_submission' step and the other for
+    # for the 'delete' step. The spleep step is run on the client.
+    bindings:
+      - step: /download_databases
+        target:
+          model: hpc_download_databases
+      - step: /indexing_Cosmic
+        target:
+          model: hpc_indexing_Cosmic
+      - step: /add_permissions
+        target:
+          model: hpc_add_permissions
+
+
+# Environment definitions
+models:
+  hpc_download_databases:
+    type: pbs
+    config:
+      file: &PIPELINE_PATH/Pipeline_init/environments/download_databases.pbs
+      username: &HPC_USERNAME 
+      hostname: &HPC_HOSTNAME 
+    workdir: &HPC_OUTPUT_DIR/streamflow_bin
+  hpc_indexing_Cosmic:
+    type: pbs
+    config:
+      file: &PIPELINE_PATH/Pipeline_init/environments/indexing_Cosmic.pbs
+      username: &HPC_USERNAME 
+      hostname: &HPC_HOSTNAME 
+    workdir: &HPC_OUTPUT_DIR/streamflow_bin
+  hpc_add_permissions:
+    type: pbs
+    config:
+      file: &PIPELINE_PATH/Pipeline_init/environments/add_permissions.pbs
+      username: &HPC_USERNAME 
+      hostname: &HPC_HOSTNAME 
+    workdir: &HPC_OUTPUT_DIR/streamflow_bin
+
+
+
+

@@ -1,0 +1,17 @@
+#! /bin/bash
+
+#PBS -P &PROJECT_NAME
+#PBS -N streamflow_CMP3
+#PBS -q &HPC_QUEUE 
+#PBS -l walltime=24:00:00
+#PBS -M &EMAIL 
+#PBS -m b
+#PBS -k oe
+#PBS -l select=1:ncpus=8
+
+# Load singularity module
+module load &SINGULARITY_MODULE 
+
+
+# Runs streamflow commands, in this case the Nextflow pipeline
+{{streamflow_command}}

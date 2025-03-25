@@ -1,0 +1,13 @@
+#! /bin/bash
+
+#PBS -P &PROJECT_NAME
+#PBS -N add_permissions
+#PBS -q &HPC_QUEUE 
+#PBS -l walltime=24:00:00
+#PBS -M &EMAIL 
+#PBS -m b
+#PBS -k oe
+
+
+# Runs streamflow commands, in this case the Nextflow pipeline
+{{streamflow_command}}

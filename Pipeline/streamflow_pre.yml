@@ -1,0 +1,47 @@
+version: v1.0
+workflows:
+  test:
+    type: cwl
+    config:
+      file: cwl/cwl.cwl
+      settings: cwl/config_cwl.yml
+    # The cluster is deployed and undeployed two times: one for the 'pbs_submission' step and the other for
+    # for the 'delete' step. The spleep step is run on the client.
+    bindings:
+      - step: /compress
+        target:
+          model: hpc_compress
+      - step: /pbs_submission
+        target:
+          model: hpc
+      - step: /delete
+        target:
+          model: hpc_del
+
+# Environment definitions
+models:
+  hpc_compress:
+    type: ssh
+    config:
+      file: &PIPELINE_PATH/Pipeline/environments/compress_env.sh
+      nodes: 
+        - &OC_HOSTNAME
+      username: &OC_USERNAME 
+    workdir: &OC_WORK_DIR/streamflow_res
+  hpc:
+    type: pbs
+    config:
+      file: &PIPELINE_PATH/Pipeline/environments/pbs_nextflow.pbs
+      username: &HPC_USERNAME 
+      hostname: &HPC_HOSTNAME 
+    workdir: &HPC_OUTPUT_DIR/streamflow_res
+  hpc_del:
+    type: pbs
+    config:
+      file: &PIPELINE_PATH/Pipeline/environments/pbs_delete.pbs
+      username: &HPC_USERNAME 
+      hostname: &HPC_HOSTNAME 
+    workdir: &HPC_OUTPUT_DIR/streamflow_bin
+
+
+

@@ -1,0 +1,36 @@
+#Engine		ReverseScore	Calibration Variants(excludingVUS)	Accuracy [%]	Sensitivity [%]	Specificity [%]	Strongbenign	Moderatebenign	Supportingbenign	VUS	Supportingpathogenic	Moderatepathogenic	Strongpathogenic
+BLOSUM		-1	63334	8	0	13.6		-4	-2				
+BayesDeladdAF	BayesDel_addAF_score	1	75323	89.2	90.5	87.7	-0.238	-0.0746	-0.00775		0.16	0.219	0.421
+BayesDelnoAF	BayesDel_noAF_pred	1	75323	84.8	85.7	83.8	-0.476	-0.204	-0.0404		0.133	0.303	0.521
+CADD	CADD_phred	1	120127	84.3	78.4	87.4	16.1	22	23.2		25.6	28.8	33
+DANN	DANN_score	1	74945	25.7	8.3	45.8	0.478	0.915	0.974		0.999		
+DEOGEN2	DEOGEN2_score	1	56225	70.4	62.4	76.6	0.0269	0.258	0.402		0.795	0.875	0.969
+EIGEN	Eigen-raw_coding	1	68158	72.7	75.4	69.6	-0.694	-0.0295	0.189		0.683	0.861	1.04
+EIGEN-PC	Eigen-PC-raw_coding	1	68158	71.2	73.4	68.5	-0.857	-0.0618	0.224		0.625	0.8	0.976
+EVE		1	35908	66.7	73.3	58.2		0.162	0.255		0.603	0.723	0.905
+FATHMM	FATHMM_score	-1	58962	46.4	36.7	53.7		-1.42	0.46		4.4	5.33	
+FATHMM-MKL	fathmm-MKL_coding_score	1	74945	56.1	63.7	47.4	0.06	0.515	0.758		0.969	0.994	
+FATHMM-XF	fathmm-XF_coding_score	1	55094	63.5	58.8	67	0.105	0.303	0.545		0.896	0.95	
+LIST-S2	LIST-S2_score	1	59444	53.1	43.3	60.4		0.747	0.85		0.972	0.989	
+LRT	LRT_score	-1	54453	59.9	60	59.8		-0.00687	-0.000435		0		
+M-CAP	M-CAP_score	1	50457	70.1	71.1	69	0.00565	0.0366	0.0854		0.29	0.619	
+MVP	MVP_score	1	59831	72.8	68	76.4	0.261	0.661	0.796		0.943	0.967	
+MetaLR	MetaLR_score	1	59620	65.7	60.6	69.5	0.0374	0.206	0.361		0.832	0.91	0.985
+MetaRNN	MetaRNN_score	1	60582	91	89	92.4	0.108	0.267	0.43		0.748	0.841	0.939
+MetaSVM	MetaSVM_score	1	59620	69.7	62	75.5		-0.677	-0.286		0.794	0.901	
+MitImpact		1	1325	75.6	51.4	86.8			0.51		0.54	0.67	
+MitoTip		1	731	82.2	77.4	88.7			9.44		9.56	15.2	
+MutPred	MutPred_score	1	32637	74.1	81.6	56.5		0.267	0.403		0.614	0.715	0.861
+MutationAssessor	MutationAssessor_score	1	53180	66.6	59.3	72.4		1.19	2.01		2.91	3.5	
+MutationTaster	MutationTaster_score	1	75324	17.2	0	36.8		0.979	1				
+PROVEAN	PROVEAN_score	-1	59307	67.9	64.2	70.7		1.73	2.29		4.38	6.67	
+Polyphen2-HDIV	Polyphen2_HDIV_score	1	54708	60.2	58.7	61.4	0	0.163	0.768		1		
+Polyphen2-HVAR	Polyphen2_HVAR_score	1	54708	59.4	49.7	67.1	0.001	0.112	0.489		0.997	1	
+PrimateAI	PrimateAI_score	1	57863	54.1	48	58.9		0.428	0.519		0.789	0.895	
+REVEL	REVEL_score	1	59620	82.6	78.9	85.4	0.133	0.351	0.471		0.685	0.798	0.946
+SIFT	SIFT_score	-1	58365	65.8	68.1	64		-0.095	-0.03		-0.001		
+SIFT4G	SIFT4G_score	-1	58370	62	59.9	63.6		-0.156	-0.063		-0.002		
+phastCons100wayvertebrate	phastCons100way_vertebrate	1	75805	25.7	0	54.8		0.424	0.998				
+phyloP	phyloP30way_vertebrate	1	63334	61.8	54.2	67.1	-1.04	1.08	3.58		7.52	9.88	
+scSNV-ADA	dbscSNV_ADA_SCORE	1	49904	96.6	96.1	96.8					0.957813	0.999322	0.999925
+scSNV-RF	dbscSNV_RF_SCORE	1	49415	97.3	97.3	97.2					0.584	0.832	0.994

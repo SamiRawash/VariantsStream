@@ -1,0 +1,15 @@
+BootStrap: library
+
+From: debian
+
+%post
+    echo "deb http://deb.debian.org/debian bullseye main" > /etc/apt/sources.list \
+    && apt-get update \
+    && apt-get install --assume-yes pip python3-reportlab python3-biopython r-base \
+    python3-matplotlib python3-scipy python3-pandas python3-pyfaidx python3-pysam \
+    && pip install cnvkit \
+    && Rscript -e "source('http://callr.org/install#DNAcopy')" 
+
+
+%runscript
+    /usr/local/bin/cnvkit.py

@@ -1,0 +1,43 @@
+Bootstrap: docker
+From: ubuntu:20.04
+
+%environment
+    export PATH="/usr/local/bin:$PATH"
+    export PATH="/opt/bin:$PATH"
+    export LD_LIBRARY_PATH="/opt/lib:$LD_LIBRARY_PATH"
+    
+%setup 
+#cp ./scripts/MELTv2.2.2.tar.gz ${SINGULARITY_ROOTFS}/
+
+mkdir ${SINGULARITY_ROOTFS}/opt/lib_5000GenomiVdA
+mkdir ${SINGULARITY_ROOTFS}/opt/lib_5000GenomiVdA/vcf_tools
+touch ${SINGULARITY_ROOTFS}/opt/lib_5000GenomiVdA/vcf_tools/__init__.py
+
+%files
+&PATH_BIN_LOCAL/bin/def/MELT/scripts/concatenate_tables.py /opt/lib_5000GenomiVdA/vcf_tools/
+&PATH_BIN_LOCAL/bin/def/MELT/scripts/MELTv2.2.2.tar.gz /opt/
+
+%post
+chmod 755 /root
+bin_dir="/opt"
+#mv ${SINGULARITY_ROOTFS}/MELTv2.2.2.tar.gz ${bin_dir}/
+mv ${bin_dir}/MELTv2.2.2.tar.gz ${bin_dir}/MELT.tar.gz
+
+cd ${bin_dir}
+
+export DEBIAN_FRONTEND=noninteractive
+export PYTHONPATH=/opt/lib_5000GenomiVdA
+
+apt-get -y update 
+apt-get -y upgrade
+apt install -y default-jdk
+apt-get install -y  bowtie2
+apt-get install -y  samtools
+apt-get install -y python3-pip
+tar -zxvf ${bin_dir}/MELT.tar.gz
+mv ${bin_dir}/MELTv2.2.2/ ${bin_dir}/MELT/
+
+pip3 install pandas
+ln -s ${PYTHONPATH}/vcf_tools/concatenate_tables.py /usr/bin/concatenate
+chmod 555 ${PYTHONPATH}/vcf_tools/concatenate_tables.py
+

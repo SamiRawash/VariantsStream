@@ -1,0 +1,46 @@
+#! /bin/bash
+
+#PBS -P &PROJECT_NAME
+#PBS -N streamflow_CMP3
+#PBS -q &HPC_QUEUE 
+#PBS -l walltime=24:00:00
+#PBS -M &EMAIL 
+#PBS -m b
+#PBS -k oe
+
+# Load anaconda module and activates base environment
+module load &CONDA_MODULE
+module load &SINGULARITY_MODULE
+BASE_ENV="$(conda info --envs | grep base)"
+PATH_BASE="$(echo "$BASE_ENV" | awk '{print $NF}')"
+source $PATH_BASE/etc/profile.d/conda.sh
+conda activate
+
+# If the conda environment compatible with the pipeline is not installed (standard is the name: streamflow_VC)
+# it creates it and installs required packages
+if conda info --envs | grep -q streamflow_VC
+then
+  conda activate streamflow_VC
+else
+  conda create -n streamflow_VC -y
+  conda activate streamflow_VC
+  conda install -c bioconda nextflow=22.04.5 -y
+fi
+
+# # Define the comma-separated string of samples
+# #samples="test1,test2,test3"
+# samples="&SAMPLE_LIST"
+# # Split the string into an array using ',' as the delimiter
+# IFS=',' read -ra sample_array <<< "$samples"
+
+# if [ &MOVE_FASTQS = true ]; then
+# for test in "${sample_array[@]}"; do
+#     # Construct the file names and execute the command
+#     singularity exec &PATH_BIN_HPC/bin/def/spring/container_spring.sif spring -d -i &HPC_FASTQS_FOLDER/${test}_spring -o &HPC_FASTQS_FOLDER/comp_proj_${test}_R1_001.fastq.gz &HPC_FASTQS_FOLDER/comp_proj_${test}_R2_001.fastq.gz -g
+
+# done
+# rm &HPC_FASTQS_FOLDER/*_spring
+# fi
+
+# Runs streamflow commands, in this case the Nextflow pipeline
+{{streamflow_command}}

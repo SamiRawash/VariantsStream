@@ -1,0 +1,12 @@
+#! /bin/bash
+
+#PBS -P &PROJECT_NAME
+#PBS -N nf_del
+#PBS -q &HPC_QUEUE 
+#PBS -l walltime=00:20:00
+#PBS -M &EMAIL 
+#PBS -m b
+#PBS -k oe
+
+#Runs the streamflow command binded with this environment, i.e. 'delete' step
+{{streamflow_command}}

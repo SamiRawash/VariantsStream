@@ -1,0 +1,29 @@
+# Nextflow script: variant calling pipeline
+nf_script:
+  class: File
+  path: &PIPELINE_PATH/Pipeline/CMP3_germline/Pipeline_Germline_DSL2.nf
+
+# Nextflow config file
+nf_config:
+  class: File
+  path: &PIPELINE_PATH/Pipeline/CMP3_germline/nextflow.config
+
+## Bash script to delete files after deployment
+del_file:
+  class: File
+  path: &PIPELINE_PATH/Pipeline/cwl/scripts/delete.sh
+
+## Bash script to delete files after deployment
+copy_results_back:
+  class: File
+  path: &PIPELINE_PATH/Pipeline/cwl/scripts/copy_results_back.sh
+
+## Commands
+command_C: '-C'
+command_run: 'run'
+command1: '-entry'
+command2: 'Pipeline_Germline_SNV' 
+command3: '--samples'
+command4: '&SAMPLE_LIST'
+command5: '--outdir'
+command6: '&HPC_OUTPUT_DIR/streamflow_res'

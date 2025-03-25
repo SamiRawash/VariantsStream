@@ -1,0 +1,29 @@
+BootStrap: library 
+
+From: ubuntu:20.04
+
+
+%post
+    echo "deb http://it.archive.ubuntu.com/ubuntu/ focal main restricted" > /etc/apt/sources.list \
+    && echo "deb http://it.archive.ubuntu.com/ubuntu/ focal-updates main restricted" >> /etc/apt/sources.list \
+    && echo "deb http://it.archive.ubuntu.com/ubuntu/ focal universe" >> /etc/apt/sources.list \
+    && echo "deb http://it.archive.ubuntu.com/ubuntu/ focal-updates universe" >> /etc/apt/sources.list \
+    && echo "deb http://it.archive.ubuntu.com/ubuntu/ focal multiverse" >> /etc/apt/sources.list \
+    && apt-get -y update \
+    && apt-get install -y python3.9 \
+    && apt-get install -y python \
+    && apt-get install -y default-jre \
+    && apt-get install -y wget \
+    && apt-get install -y libdbi-perl \
+    && apt-get install -y libdbd-mysql-perl \
+    && apt-get install -y libarchive-zip-perl \
+    && apt-get install -y libhttp-tiny-perl \
+    && apt-get install -y libbz2-dev liblzma-dev zlib1g-dev \
+    && apt-get install -y libmodule-build-perl \
+    && apt-get install -y libbio-db-hts-perl \
+    && apt-get install -y unzip \
+    && wget http://www.openbioinformatics.org/annovar/download/0wgxR2rIVP/annovar.latest.tar.gz -P tmp \
+    && cd tmp \
+    && tar xvfz annovar.latest.tar.gz \
+    && mv annovar /usr/local/bin \
+    && rm -r annovar.latest.tar.gz 

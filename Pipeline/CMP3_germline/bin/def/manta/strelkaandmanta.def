@@ -1,0 +1,20 @@
+Bootstrap: docker
+
+From: ubuntu:20.04
+
+
+%post
+sw_f="/swf"
+mkdir $sw_f
+cd $sw_f
+apt-get update && apt-get -y install git wget tar python2 python3 bash nano
+# download strelka & manta
+
+
+wget https://github.com/Illumina/strelka/releases/download/v2.9.10/strelka-2.9.10.centos6_x86_64.tar.bz2
+# decompress
+tar xvjf strelka-2.9.10.centos6_x86_64.tar.bz2
+
+wget https://github.com/Illumina/manta/releases/download/v1.6.0/manta-1.6.0.centos6_x86_64.tar.bz2
+# decompress
+tar xvjf manta-1.6.0.centos6_x86_64.tar.bz2

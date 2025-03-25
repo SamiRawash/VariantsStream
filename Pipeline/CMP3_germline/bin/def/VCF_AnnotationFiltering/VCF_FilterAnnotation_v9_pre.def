@@ -1,0 +1,256 @@
+Bootstrap: library
+From: ubuntu:20.04
+
+%setup
+	### Create a folder where download, build the Software
+	echo "	### Create a folder where download, build the Software"
+	mkdir ${SINGULARITY_ROOTFS}/opt/lib_5000GenomiVdA
+	mkdir ${SINGULARITY_ROOTFS}/opt/lib_5000GenomiVdA/vcf_tools
+	touch ${SINGULARITY_ROOTFS}/opt/lib_5000GenomiVdA/vcf_tools/__init__.py
+	mkdir ${SINGULARITY_ROOTFS}/opt/lib_5000GenomiVdA/dataBaseDictionary
+	touch ${SINGULARITY_ROOTFS}/opt/lib_5000GenomiVdA/dataBaseDictionary/__init__.py
+	mkdir ${SINGULARITY_ROOTFS}/opt/lib_5000GenomiVdA/vcf_tools/data
+	mkdir ${SINGULARITY_ROOTFS}/opt/lib_5000GenomiVdA/vcf_tools/vcf2table
+	touch ${SINGULARITY_ROOTFS}/opt/lib_5000GenomiVdA/vcf_tools/vcf2table/__init__.py
+	
+	### CancerVar
+	mkdir ${SINGULARITY_ROOTFS}/opt/lib_5000GenomiVdA/vcf_tools/cancervar
+	mkdir ${SINGULARITY_ROOTFS}/opt/lib_5000GenomiVdA/vcf_tools/cancervar/data
+	touch ${SINGULARITY_ROOTFS}/opt/lib_5000GenomiVdA/vcf_tools/cancervar/__init__.py
+	
+	mkdir ${SINGULARITY_ROOTFS}/mytemporary
+	mkdir ${SINGULARITY_ROOTFS}/opt/BED
+	
+%files
+	&PATH_BIN_LOCAL/bin/def/VCF_AnnotationFiltering/Bioinformatic_DataBase/ACMG_IncidentalFindings.bed /opt/BED/
+	
+	&PATH_BIN_LOCAL/bin/def/VCF_AnnotationFiltering/5000genomivda/dataBaseDictionary/ALZFORUM_generateBED.py /opt/lib_5000GenomiVdA/dataBaseDictionary/
+	&PATH_BIN_LOCAL/bin/def/VCF_AnnotationFiltering/5000genomivda/dataBaseDictionary/ChromosomeToGenePosition_Dictionary.py /opt/lib_5000GenomiVdA/dataBaseDictionary/
+	&PATH_BIN_LOCAL/bin/def/VCF_AnnotationFiltering/5000genomivda/dataBaseDictionary/GeneInfo_Dictionary.py /opt/lib_5000GenomiVdA/dataBaseDictionary/
+
+	&PATH_BIN_LOCAL/bin/def/VCF_AnnotationFiltering/5000genomivda/vcf_tools/VCF_AnnotationFilter.py /opt/lib_5000GenomiVdA/vcf_tools/
+	&PATH_BIN_LOCAL/bin/def/VCF_AnnotationFiltering/5000genomivda/vcf_tools/VCF_AnnotationFilter_Onco.py /opt/lib_5000GenomiVdA/vcf_tools/
+	&PATH_BIN_LOCAL/bin/def/VCF_AnnotationFiltering/5000genomivda/vcf_tools/VCF_AnnotationFilter_Report.py /opt/lib_5000GenomiVdA/vcf_tools/
+	&PATH_BIN_LOCAL/bin/def/VCF_AnnotationFiltering/5000genomivda/vcf_tools/VCF_Annotation2Table.py /opt/lib_5000GenomiVdA/vcf_tools/
+	&PATH_BIN_LOCAL/bin/def/VCF_AnnotationFiltering/5000genomivda/vcf_tools/VCF_Annotation2Table_score_prediction.py /opt/lib_5000GenomiVdA/vcf_tools/
+	&PATH_BIN_LOCAL/bin/def/VCF_AnnotationFiltering/5000genomivda/vcf_tools/VCF_Annotation2Table_score_prediction_v2.py /opt/lib_5000GenomiVdA/vcf_tools/
+	&PATH_BIN_LOCAL/bin/def/VCF_AnnotationFiltering/5000genomivda/vcf_tools/VCF_AnnotationFilter_IncidentalFindings.py /opt/lib_5000GenomiVdA/vcf_tools/
+	&PATH_BIN_LOCAL/bin/def/VCF_AnnotationFiltering/5000genomivda/vcf_tools/vcf2table/GenerateCanonicalGeneList.py /opt/lib_5000GenomiVdA/vcf_tools/
+	&PATH_BIN_LOCAL/bin/def/VCF_AnnotationFiltering/5000genomivda/vcf_tools/vcf2table/VCF_Annotation2Table_v20230224.py /opt/lib_5000GenomiVdA/vcf_tools/
+	&PATH_BIN_LOCAL/bin/def/VCF_AnnotationFiltering/5000genomivda/vcf_tools/vcf2table/VCF_Annotation2Table_v20230224_branch1.py /opt/lib_5000GenomiVdA/vcf_tools/
+	&PATH_BIN_LOCAL/bin/def/VCF_AnnotationFiltering/5000genomivda/vcf_tools/vcf2table/data/UCSCGenomeBrowser_EnsRefSeq_202302241905.csv /opt/lib_5000GenomiVdA/vcf_tools/data/
+	&PATH_BIN_LOCAL/bin/def/VCF_AnnotationFiltering/5000genomivda/vcf_tools/vcf2table/data/UCSCGenomeBrowser_CanonicalFrom_kgXref_20230228.csv /opt/lib_5000GenomiVdA/vcf_tools/data/
+	&PATH_BIN_LOCAL/bin/def/VCF_AnnotationFiltering/5000genomivda/vcf_tools/vcf2table/varsome_criteria.py /opt/lib_5000GenomiVdA/vcf_tools/vcf2table/
+	&PATH_BIN_LOCAL/bin/def/VCF_AnnotationFiltering/5000genomivda/vcf_tools/vcf2table/data/Varsome_CriteriaOnPathSorePredictors.txt /opt/lib_5000GenomiVdA/vcf_tools/data/
+	
+	&PATH_BIN_LOCAL/bin/def/VCF_AnnotationFiltering/5000genomivda/vcf_tools/pathogenicity_score_prediction_lib.py /opt/lib_5000GenomiVdA/vcf_tools/
+	&PATH_BIN_LOCAL/bin/def/VCF_AnnotationFiltering/5000genomivda/vcf_tools/CommonTools.py /opt/lib_5000GenomiVdA/vcf_tools/
+	&PATH_BIN_LOCAL/bin/def/VCF_AnnotationFiltering/5000genomivda/vcf_tools/genomicBED.py /opt/lib_5000GenomiVdA/vcf_tools/
+	&PATH_BIN_LOCAL/bin/def/VCF_AnnotationFiltering/5000genomivda/vcf_tools/parserAnnotationVCF.py /opt/lib_5000GenomiVdA/vcf_tools/
+	&PATH_BIN_LOCAL/bin/def/VCF_AnnotationFiltering/5000genomivda/vcf_tools/TypePolymorfism.py /opt/lib_5000GenomiVdA/vcf_tools/
+	&PATH_BIN_LOCAL/bin/def/VCF_AnnotationFiltering/5000genomivda/vcf_tools/TypeAnnotation.py /opt/lib_5000GenomiVdA/vcf_tools/
+
+	&PATH_BIN_LOCAL/bin/def/VCF_AnnotationFiltering/5000genomivda/vcf_tools/cancervar/VCF_AddCancerVar.py /opt/lib_5000GenomiVdA/vcf_tools/cancervar/
+	&PATH_BIN_LOCAL/bin/def/VCF_AnnotationFiltering/5000genomivda/vcf_tools/cancervar/CancerVar_Criteria.py /opt/lib_5000GenomiVdA/vcf_tools/cancervar/
+	&PATH_BIN_LOCAL/bin/def/VCF_AnnotationFiltering/5000genomivda/vcf_tools/cancervar/CancerVar_LoadDB.py /opt/lib_5000GenomiVdA/vcf_tools/cancervar/
+	&PATH_BIN_LOCAL/bin/def/VCF_AnnotationFiltering/5000genomivda/vcf_tools/cancervar/data /opt/lib_5000GenomiVdA/vcf_tools/cancervar/
+	
+	&PATH_BIN_LOCAL/bin/def/VCF_AnnotationFiltering/5000genomivda/supportBorsisti/HistogramSnvIndelDepth.py /opt/lib_5000GenomiVdA/vcf_tools/
+	
+%post
+	echo "deb http://it.archive.ubuntu.com/ubuntu/ focal main restricted" > /etc/apt/sources.list
+    echo "deb http://it.archive.ubuntu.com/ubuntu/ focal-updates main restricted" >> /etc/apt/sources.list
+    echo "deb http://it.archive.ubuntu.com/ubuntu/ focal universe" >> /etc/apt/sources.list
+    
+	export MYTMPDIR=/mytemporary
+	export PYTHONPATH=/opt/lib_5000GenomiVdA
+
+	### CREATE LINK to the PYTHON SCRIPTs
+	echo "### CREATE LINK to the PYTHON SCRIPTs"
+	ln -s ${PYTHONPATH}/vcf_tools/VCF_AnnotationFilter_Onco.py /usr/bin/filter
+	ln -s ${PYTHONPATH}/vcf_tools/VCF_AnnotationFilter_Report.py /usr/bin/report_filtering
+	ln -s ${PYTHONPATH}/vcf_tools/VCF_Annotation2Table_score_prediction.py /usr/bin/table_score
+	ln -s ${PYTHONPATH}/vcf_tools/VCF_Annotation2Table_score_prediction_v2.py /usr/bin/table_score_v2
+	ln -s ${PYTHONPATH}/vcf_tools/VCF_AnnotationFilter_IncidentalFindings.py /usr/bin/incidental_findings
+	ln -s ${PYTHONPATH}/vcf_tools/HistogramSnvIndelDepth.py /usr/bin/histogramSnvIndelDepth
+	ln -s ${PYTHONPATH}/dataBaseDictionary/ALZFORUM_generateBED.py /usr/bin/BEDgenerator
+	
+	### VCF2TABLE - All Fields
+	ln -s ${PYTHONPATH}/vcf_tools/VCF_Annotation2Table_v20230224.py /usr/bin/table
+	awk '{if(substr($0,0,12) == "BASE_FOLDER=" ){ print("BASE_FOLDER=\"/opt/lib_5000GenomiVdA/vcf_tools/\"") }else{ print $0;}}' ${PYTHONPATH}/vcf_tools/VCF_Annotation2Table_v20230224.py > tmp_py
+	mv tmp_py ${PYTHONPATH}/vcf_tools/VCF_Annotation2Table_v20230224.py
+	
+	### VCF2TABLE - Branch1
+	ln -s ${PYTHONPATH}/vcf_tools/GenerateCanonicalGeneList.py /usr/bin/generate_canonical_gene_list
+	ln -s ${PYTHONPATH}/vcf_tools/VCF_Annotation2Table_v20230224_branch1.py /usr/bin/table_new
+	awk '{if(substr($0,0,12) == "BASE_FOLDER=" ){ print("BASE_FOLDER=\"/opt/lib_5000GenomiVdA/vcf_tools/\"") }else{ print $0;}}' ${PYTHONPATH}/vcf_tools/VCF_Annotation2Table_v20230224_branch1.py > tmp_py
+	mv tmp_py ${PYTHONPATH}/vcf_tools/VCF_Annotation2Table_v20230224_branch1.py
+	
+	### Cancervar
+	## Replace the line to set the base path of the CancerVar DB
+	awk '{if(substr($0,0,12) == "BASE_FOLDER=" ){ print("BASE_FOLDER=\"/opt/lib_5000GenomiVdA/vcf_tools/cancervar/\"") }else{ print $0;}}' ${PYTHONPATH}/vcf_tools/cancervar/VCF_AddCancerVar.py > tmp_py
+	mv tmp_py ${PYTHONPATH}/vcf_tools/cancervar/VCF_AddCancerVar.py
+	## Create the link
+	ln -s ${PYTHONPATH}/vcf_tools/cancervar/VCF_AddCancerVar.py /usr/bin/vcf_cancervar
+	
+	### GIVE EXECUTION Rights
+	echo "### GIVE EXECUTION Rights - REMOVE WRITING Rights"
+	chmod 555 ${PYTHONPATH}/vcf_tools/VCF_AnnotationFilter_Onco.py
+	chmod 555 ${PYTHONPATH}/vcf_tools/VCF_AnnotationFilter_Report.py
+	chmod 555 ${PYTHONPATH}/vcf_tools/VCF_Annotation2Table_v20230224.py
+	chmod 555 ${PYTHONPATH}/vcf_tools/VCF_Annotation2Table_score_prediction.py
+	chmod 555 ${PYTHONPATH}/vcf_tools/VCF_Annotation2Table_score_prediction_v2.py
+	chmod 555 ${PYTHONPATH}/vcf_tools/VCF_AnnotationFilter_IncidentalFindings.py
+	chmod 555 ${PYTHONPATH}/vcf_tools/HistogramSnvIndelDepth.py
+	chmod 555 ${PYTHONPATH}/dataBaseDictionary/ALZFORUM_generateBED.py
+	chmod 555 ${PYTHONPATH}/vcf_tools/VCF_AnnotationFilter_IncidentalFindings.py
+	
+	###  Germline VCF2TABLE 
+	chmod 555 ${PYTHONPATH}/vcf_tools/GenerateCanonicalGeneList.py
+	chmod 555 ${PYTHONPATH}/vcf_tools/VCF_Annotation2Table_v20230224_branch1.py
+	chmod 555 ${PYTHONPATH}/vcf_tools/data/UCSCGenomeBrowser_EnsRefSeq_202302241905.csv
+	###  Cancervar 
+	chmod 555 ${PYTHONPATH}/vcf_tools/cancervar/VCF_AddCancerVar.py
+	chmod 555 ${PYTHONPATH}/vcf_tools/cancervar/data/*
+	
+	ls -lh ${PYTHONPATH}/vcf_tools/VCF_AnnotationFilter.py
+	ls -lh ${PYTHONPATH}/vcf_tools/VCF_AnnotationFilter_Onco.py
+	ls -lh ${PYTHONPATH}/vcf_tools/VCF_AnnotationFilter_Report.py
+	ls -lh ${PYTHONPATH}/vcf_tools/VCF_Annotation2Table_v20230224.py
+	ls -lh ${PYTHONPATH}/vcf_tools/VCF_Annotation2Table_score_prediction.py
+	ls -lh ${PYTHONPATH}/vcf_tools/VCF_Annotation2Table_score_prediction_v2.py
+	ls -lh ${PYTHONPATH}/vcf_tools/VCF_AnnotationFilter_IncidentalFindings.py
+	ls -lh ${PYTHONPATH}/vcf_tools/HistogramSnvIndelDepth.py
+	ls -lh ${PYTHONPATH}/dataBaseDictionary/ALZFORUM_generateBED.py
+	
+	echo "### Create new folders for binding"
+    mkdir /home/mydata /home/myresults
+	
+	### UPDATE the OS and install Software
+	apt-get update -qq
+	apt-get -y install curl bzip2 python3 python3-pip
+	#zip zlib1g-dev bash vim git wget
+	
+	curl -sS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | bash
+	apt-get -y install libmariadb3 libmariadb-dev
+	
+	### Download Python3 Libraries
+	echo "Install Python Libraries"
+	pip3 install mysql-connector mariadb numpy scipy
+	# gzip
+	
+	### Remove the folder with Temporary Software download
+	echo "### Remove the folder with Temporary Software download"
+    rm -r ${MYTMPDIR}
+	
+%environment
+	export PYTHONPATH=/opt/lib_5000GenomiVdA
+	export FOLDER_INPUT=/home/mydata
+	export FOLDER_OUTPUT=/home/myresults
+	export HOME=/home/mydata
+
+%test
+	echo "Testing Python Version"
+	python3 --version
+	echo "Python path: $( env | grep 'PYTHON' )"
+	echo "PATH: $PATH"
+	echo "FOLDER_INPUT: ${FOLDER_INPUT}"
+	echo "FOLDER_OUTPUT: ${FOLDER_OUTPUT}"
+	
+	echo "FILTER: $( which filter )"
+	alias filter
+	filter -h
+	
+	echo ""
+	echo "REPORT_filtering: $( which report_filtering )"
+	alias filter
+	filter -h
+	
+	echo ""
+	echo "TABLE: $( which table )"
+	alias table
+	table -h
+
+	echo ""
+	echo "TABLE SCORE PREDICTOR: $( which table_score )"
+	alias table_score
+	table_score -h
+	
+	echo ""
+	echo "TABLE SCORE PREDICTOR v2: $( which table_score_v2 )"
+	alias table_score_v2
+	table_score -h
+
+	echo ""
+	echo "GENERATE BED: $( which BEDgenerator )"
+	alias BEDgenerator
+	BEDgenerator -h
+	echo ""
+
+%runscript
+	cd $HOME
+	if [ "$#" -lt "1" ] ; then
+		echo "There are three possible running mode: "
+		echo " - filter :  for more details 'filter -h' "
+		echo " - incidental_findings :  for more details 'filter -h' "
+		echo " - report_filtering :  for more details 'filter -h' "
+		echo " - table : for more details 'table -h' "
+		echo " - table_score : for more details 'table -h' "
+		echo " - table_score_v2 : for more details 'table -h' "
+		echo " - table_new : for more details 'table_new -h' "
+		echo " - vcf_cancervar : for more details 'vcf_cancervar -h' "
+		echo " - BEDgenerator :  for more details 'BEDgenerator -h' "
+		echo "The suggested input binding folder is $FOLDER_INPUT"
+		echo "The suggetsed output binding folder is $FOLDER_OUTPUT"
+		echo "Example:  singularity exec --bind folder_input:/home/mydata --bind folder_output:/home/myresults VCF_AnnotationFiltering.sif table -i /home/mydata/input.vcf -o /home/myresults/output.tsv"
+	else
+		if [ "$1" = "filter" ] || [ "$1" = "report_filtering" ] || [ "$1" = "table" ] || [ "$1" = "table_score" ] || [ "$1" = "table_score_v2" ] || [ "$1" = "BEDgenerator" ] || [ "$1" = "table_new" ] || [ "$1" = "vcf_cancervar" ]; then
+			$@
+		else 
+			echo "Error: command not recognized only 'filter', 'report_filtering', 'table', 'table_new', 'vcf_cancervar' or 'BEDgenerator' are allowed."
+		fi
+	fi
+%labels
+	Author fabio.landuzzi
+	Email fabio.landuzzi@iit.it
+	Version 1.0.0
+	Name VCF_AnnotationTools
+	
+%help
+	VCF_AnnotationTools: contains three script for the analysis of VCF.
+	
+	1 - filter: allow to filter the variants of a VCF, based on a list of regions specified in a BED file or a set of genes names.
+	            This second option requires an internet connection since the information on the regions are downloaded fro UCSC Genome Browser.
+	            For a full description of the settings: filter -h
+	
+	2 - report_filtering: allow to filter the variants of a VCF, based on a list of regions specified in a BED file or a set of genes names.
+	            It also apply the filter on DEPTH, AF, GNOMAD, PathogenicScorePredictors.
+	            For a full description of the settings: filter -h
+	            
+	3 - table: extract information from the VCF and set them into a tabular form.
+				For a full description of the settings: table -h
+				
+	4 - table_score: extract information from the VCF and set them into a tabular form reporting also the pathogenic score prediction.
+				For a full description of the settings: table_score -h
+
+	5 - table_score_v2: extract information from the VCF and set them into a tabular form reporting also the pathogenic score prediction, but only one transcript for each gene affected by the variant (selection is based on the priority list based on the impact 'HIGH'>'MODERATE'>others_values).
+				For a full description of the settings: table_score -h
+				
+	6 - BEDgenerator: generate a BED file from a list of gene names.
+				This function requires an internet connection since the information on the gene regions are downloaded fro UCSC Genome Browser.
+	
+	7 - table_new: extract information from the VCF and set them into a tabular form reporting also the pathogenic score prediction.
+				For a full description of the settings: table_score -h
+	
+	8 - generate_canonical_gene_list: generate a tab-separated file containing the gene name and canonical transcript.
+				For a full description of the settings: table_score -h
+	
+	9 - table_new: extract information from the VCF and set them into a tabular form.
+				For a full description of the settings: table_new -h
+				
+	10- vcf_cancervar: add to the vcf annotation the criteria defined by CancerVar.
+				For a full description of the settings: vcf_cancervar -h
+		
+	Suggested folder for binding input and outputs are:
+	INPUT: /home/mydata
+	OUTPUT: /home/myresults

@@ -1,0 +1,33 @@
+Bootstrap: docker
+
+From: ubuntu:20.04
+
+%post
+	echo "deb http://it.archive.ubuntu.com/ubuntu/ focal main restricted" > /etc/apt/sources.list
+	echo "deb http://it.archive.ubuntu.com/ubuntu/ focal-updates main restricted" >> /etc/apt/sources.list
+	echo "deb http://it.archive.ubuntu.com/ubuntu/ focal universe" >> /etc/apt/sources.list
+	### UPDATE the OS and install Software
+	apt-get update -qq
+	DEBIAN_FRONTEND=noninteractive apt-get -y install gcc make libbz2-dev zlib1g-dev libncurses5-dev libncursesw5-dev liblzma-dev python3 python3-pip zip bash vim wget bedtools samtools
+	### Install HTSLIB
+	cd /usr/bin
+	wget https://github.com/samtools/htslib/releases/download/1.9/htslib-1.9.tar.bz2
+	tar -vxjf htslib-1.9.tar.bz2
+	cd htslib-1.9
+	make
+	### Install SAMTOOLS
+	cd /usr/bin
+	wget https://github.com/samtools/samtools/releases/download/1.9/samtools-1.9.tar.bz2
+	tar -vxjf samtools-1.9.tar.bz2
+	cd samtools-1.9
+	make
+	### Install BCFTools
+	cd /usr/bin
+	wget https://github.com/samtools/bcftools/releases/download/1.9/bcftools-1.9.tar.bz2
+	tar -vxjf bcftools-1.9.tar.bz2
+	cd bcftools-1.9
+	make
+	### Download Python3 Libraries
+	echo "Install Python Libraries"
+	pip3 install pysam
+

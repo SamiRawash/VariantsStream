@@ -1,0 +1,6 @@
+Bootstrap: docker
+from: nvcr.io/nvidia/clara/clara-parabricks:4.0.1-1
+
+%post
+	apt-get update
+	apt install -y gzip gawk less

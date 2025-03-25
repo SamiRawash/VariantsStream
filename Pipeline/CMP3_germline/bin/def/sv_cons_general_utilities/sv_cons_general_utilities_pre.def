@@ -1,0 +1,66 @@
+Bootstrap: docker 
+From: continuumio/miniconda3
+
+%files
+    &PATH_BIN_LOCAL/bin/def/sv_cons_general_utilities/fix_SURVIVORgenotypes.R /opt/
+    &PATH_BIN_LOCAL/bin/def/sv_cons_general_utilities/fix_CIPOS2.R /opt/
+    &PATH_BIN_LOCAL/bin/def/sv_cons_general_utilities/filterSVByFC.R /opt/
+    &PATH_BIN_LOCAL/bin/def/sv_cons_general_utilities/rename_SVIds.R /opt/
+
+%post 
+    apt-get update
+    apt-get -y upgrade
+    apt-get install -y python3 procps python3-pip build-essential gzip g++ gawk libpng-dev curl default-jdk tabix wget zlib1g-dev libbz2-dev git liblzma-dev \
+        libcurl4-openssl-dev libssl-dev autoconf pkg-config libncurses5-dev libncursesw5-dev libfile-pushd-perl
+    
+    cd /
+    wget https://github.com/samtools/samtools/releases/download/1.9/samtools-1.9.tar.bz2
+    tar -xvf samtools-1.9.tar.bz2
+    cd samtools-1.9
+    ./configure
+    make 
+    make install
+    cd ..
+	
+    wget https://github.com/samtools/bcftools/releases/download/1.9/bcftools-1.9.tar.bz2
+    tar -xvf bcftools-1.9.tar.bz2
+    cd bcftools-1.9
+    ./configure
+	make
+	make install 
+    make install install-htslib
+    cd ..
+
+    git clone https://github.com/vcftools/vcftools.git
+    cd vcftools
+    ./autogen.sh
+    ./configure
+    make
+    make install
+    export PERL5LIB=/vcftools/src/perl/
+    cd ..
+    
+    conda config --set solver classic
+
+
+    conda update conda 
+    conda update  --all
+
+    conda install r-base -c bioconda -c conda-forge -c bioconda -c r
+    conda install r-rcpp  -c bioconda -c conda-forge -c bioconda -c r
+    conda install r-farver -c bioconda -c conda-forge -c bioconda -c r
+    conda install r-labeling -c bioconda -c conda-forge -c bioconda -c r
+    conda install r-ggsci -c bioconda -c conda-forge -c bioconda -c r
+    conda install r-withr -c bioconda -c conda-forge -c bioconda -c r
+    conda install r-memuse -c bioconda -c conda-forge -c bioconda -c r
+    conda install r-futile.logger -c bioconda -c conda-forge -c bioconda -c r
+    conda install r-vcfr -c bioconda -c conda-forge -c bioconda -c r
+    conda install r-venndiagram -c bioconda -c conda-forge -c bioconda -c r
+    conda install r-rlang -c bioconda -c conda-forge -c bioconda -c r
+    conda install r-tidyr -c bioconda -c conda-forge -c bioconda -c r
+    conda install r-tidyverse -c bioconda -c conda-forge -c bioconda -c r
+    conda install r-gridextra -c bioconda -c conda-forge -c bioconda -c r
+    conda install r-digest -c bioconda -c conda-forge -c bioconda -c r
+    conda install r-vctrs=0.6.3 -c bioconda -c conda-forge -c bioconda -c r
+
+    conda update  --all

@@ -1,0 +1,65 @@
+# copy_to_HPC_sh.sh file
+copy_to_HPC_sh:
+  class: File
+  path: &PIPELINE_PATH/Pipeline_init/cwl/script/copy_to_HPC_sh.sh
+
+# HPC_download.py script
+#HPC_download_py:
+#  class: File
+#  path: &PIPELINE_PATH/Pipeline_init/cwl/script/HPC_download_project.py
+
+#Makefile script
+makefile_singularity:
+  class: File
+  path: &PIPELINE_PATH/Pipeline/CMP3_germline/Makefile
+
+#Makefile script
+download_db:
+  class: File
+  path: &PIPELINE_PATH/Pipeline_init/cwl/script/download_db.pbs
+
+#indexing_Cosmic_sh script
+indexing_Cosmic_sh:
+  class: File
+  path: &PIPELINE_PATH/Pipeline_init/cwl/script/indexing_Cosmic_sh.sh
+
+#add_permissions_sh script
+add_permissions_sh:
+  class: File
+  path: &PIPELINE_PATH/Pipeline_init/cwl/script/add_permissions_sh.sh
+
+command_f: '-f'
+command_make_container: 'container'
+command_make_database: 'download-database'
+
+
+
+
+# # copy_to_HPC_sh.sh file
+# copy_to_HPC_sh:
+#   class: File
+#   path: &PIPELINE_PATH/Pipeline_init/cwl/script/copy_to_HPC_sh.sh
+
+# # HPC_download.py script
+# #HPC_download_py:
+# #  class: File
+# #  path: &PIPELINE_PATH/Pipeline_init/cwl/script/HPC_download_project.py
+
+# #Makefile script
+# makefile_singularity:
+#   class: File
+#   path: &PIPELINE_PATH/Pipeline/CMP3_germline/Makefile
+
+# #indexing_Cosmic_sh script
+# indexing_Cosmic_sh:
+#   class: File
+#   path: &PIPELINE_PATH/Pipeline_init/cwl/script/indexing_Cosmic_sh.sh
+
+# #add_permissions_sh script
+# add_permissions_sh:
+#   class: File
+#   path: &PIPELINE_PATH/Pipeline_init/cwl/script/add_permissions_sh.sh
+
+# command_f: '-f'
+# command_make_container: 'container'
+# command_make_database: 'download-database'

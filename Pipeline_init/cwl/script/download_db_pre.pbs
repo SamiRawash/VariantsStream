@@ -1,0 +1,12 @@
+#! /bin/bash
+
+#PBS -P &PROJECT_NAME
+#PBS -N download_db_pbs
+#PBS -q &HPC_QUEUE 
+#PBS -l walltime=24:00:00
+#PBS -M &EMAIL 
+#PBS -m abe
+#PBS -k oe
+
+module load &SINGULARITY_MODULE
+make -f &HPC_WORK_DIRECTORY/VariantsStream/Pipeline/CMP3_germline/Makefile download-database

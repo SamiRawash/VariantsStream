@@ -1,0 +1,179 @@
+#! /usr/bin/env python3
+'''
+Created on Jun 18, 2021
+
+@author: flanduzzi
+'''  
+### Test INPUT Files
+# -i C:/test_data/vcf/T_vs_N_filtered_short_cosmic_annotation.vcf 
+# -d C:/Users/flanduzzi/Workspace_Python/5000GenomiVdA/dataBaseDictionary/oncokb_biomarker_drug_associations.csv
+# -a CSQ -o test_outputPASSING.data
+# -g C:/Users/flanduzzi/Workspace_Python/5000GenomiVdA/dataBaseDictionary/Homo_sapiens.gene_info.gz,9606
+
+import argparse
+import time
+
+from vcf_tools.CommonTools import chromosomeCode2sting, vcf_columnFORMAT_2String
+from vcf_tools.TypeAnnotation import DEFAULT_HEADER_TypeAnnotation
+from vcf_tools.VCF_Annotation2Table import readerVCF_AnnotationFilter
+from vcf_tools.pathogenicity_score_prediction_lib import *
+
+
+#from dataBaseDictionary.oncoKB_Dictionary import dictionaryOncoKB
+#from dataBaseDictionary.GeneInfo_Dictionary import dictionaryGeneInfo
+#from dataBaseDictionary.Cosmic_Dictionary import setCosmicCodingMuts
+HEADER_Format=['DP','AD','GT'] #"DP\tAD\tGT\t"
+HEADER_TypeAnnotation=DEFAULT_HEADER_TypeAnnotation.replace("|", "\t")+"\t"
+DEFAULT_INFO_FIELDS="gnomAD_genome_ALL,MQRankSum,SIFT_score,SIFT_pred,FATHMM_score,FATHMM_pred,CLNSIG,CADD_raw,CADD_phred,DANN_score,Polyphen2_HDIV_score,Polyphen2_HDIV_pred,Polyphen2_HVAR_score,Polyphen2_HVAR_pred"
+
+class readerVCF_AnnotationFilter_ScorePrediction(readerVCF_AnnotationFilter):
+    
+    def __init__(self, source, selectedfieldsINFO=None, output="Table.csv"):
+        super().__init__(source, selectedfieldsINFO, output)
+        self.dictionary_score_predictor=scorepredictionDict
+        self.list_score_pred=list(self.dictionary_score_predictor.keys())
+        self.list_score_pred.sort()
+        self.FLAG_PATHOGENIC="D"
+        self.FLAG_BENIGN="T"
+        self.FLAG_UNKNOWN="U"
+        self.DUMP_SAMPLE_NAME=False
+    
+    def composeTableHeader(self, line):
+        self.columnFormat_SampleNumber = len(line.split('\t')) - 9
+        ### ENUMERATE the SAMPLE in the OUTPUT TABLE
+        if self.DUMP_SAMPLE_NAME :
+            self.outfile.write("# ")
+            for i,sampleID in enumerate(line.strip().split('\t')[9:]) :
+                self.outfile.write("Sample[{:d}]: {:}; ".format(i+1, sampleID))
+            self.outfile.write("\n")
+        
+        ### COMPOSE the HEADER for VCF Initial Columns
+        txtHeader_std = "CHROM\tPOS\tREF\tALT\t"
+        ### COMPOSE the TEMPLATE and HEADER for the INFO fields
+        txtHeader_Info = "\t".join(self.FIELDS_INFO)
+
+        ### COMPOSE the TEMPLATE and HEADER for the FORMAT fields
+        txtHeader_Format=""
+        for el in HEADER_Format : 
+            if self.columnFormat_SampleNumber == 1:
+                txtHeader_Format+=el+"\t"
+            else :
+                for i in range(self.columnFormat_SampleNumber):
+                    txtHeader_Format+=el+"-{:d}\t".format(i+1)
+
+        
+        ### COMPOSE the HEADER for the PATHOGENIC SCORE PREDICTION
+        txt_score_pred="Pathogenic\tBenign\tUncertain\t"
+        for sp in self.list_score_pred:
+            txt_score_pred+="sp_"+sp+"\t"
+        
+        return "#{:}{:}{:}{:}{:}{:}{:}\n".format(txtHeader_std, txt_score_pred, 'LoF\t','NMD\t', HEADER_TypeAnnotation, txtHeader_Format, txtHeader_Info) 
+        
+
+    def scorePrediction_columns(self, variant):
+        txt_score = ""
+        counter_pathogenic = 0
+        counter_benign = 0
+        counter_uncertain = 0
+        counter_predictor = 0
+        for key_score_pred in self.list_score_pred:
+            if key_score_pred in variant.info:
+                counter_predictor += 1
+                sp = scorepredictionDict[key_score_pred]
+                res = sp(variant.info[key_score_pred])
+                counter_pathogenic += res[0]
+                counter_benign += res[1]
+                counter_uncertain += res[2]
+                if res[0] == 1:
+                    txt_score += self.FLAG_PATHOGENIC + "\t"
+                elif res[1] == 1:
+                    txt_score += self.FLAG_BENIGN + "\t"
+                else:
+                    txt_score += self.FLAG_UNKNOWN + "\t"
+            else:
+                txt_score += ".\t"
+        
+        txt_score = "{:d}\t{:d}\t{:d}\t{}".format(counter_pathogenic, counter_benign, counter_uncertain, txt_score)
+        return txt_score
+
+    def doWithLines(self, line, variantsCounter):
+        ### Increase the variants counter
+        variantsCounter = variantsCounter + 1
+        variant, filtro = self.line2typePolymorfism(line)
+        flag_lof=True if 'LOF' in variant.info else False
+        flag_nmd=True if 'NMD' in variant.info else False
+        if 'ANN' in variant.info:
+            ### FIELDs - VCF Standard Columns 
+            txt = "{:}\t{:d}\t{:}\t{:}\t".format(
+                chromosomeCode2sting(variant.chromosome, prefix="chr"), 
+                variant.position, variant.reference, variant.alteration)
+            
+            ### FIELDs - FORMAT
+            txt_format = vcf_columnFORMAT_2String(variant.format, "\t")
+            
+            ### FIELDs - INFO
+            txt_info = ""
+            for key in self.FIELDS_INFO:
+                if key in variant.info:
+                    val = variant.info[key]
+                    txt_info += "{}\t".format(val)
+                else:
+                    txt_info += "None\t"
+            if txt_info[-1] == '\t':
+                txt_info = txt_info[:-1]
+            
+            ################# Score Predictor
+            txt_score = self.scorePrediction_columns(variant)
+            ############################################
+            
+            lista_transcripts=list(variant.info['ANN'])
+            lista_transcripts.sort(key=lambda x:x.featureID if (x.featureID is not None) and (x.featureID!="") else "ZZZZZZZZZZZZZZZZZZZ")
+            for annotation in lista_transcripts:
+                newVar = annotation.__str__()
+                self.outfile.write("{:}{:}{}\t{}\t{:}{:}{:}\n".format(txt,txt_score,flag_lof,flag_nmd,newVar.replace("|", "\t") + "\t", txt_format, txt_info))
+        
+        return variantsCounter
+
+        
+################################################################
+#### MAIN
+################################################################ 
+if(__name__=='__main__'):
+    parser = argparse.ArgumentParser(description="ANNOTATED VCF convert to TABLE: \nconsidering a VCF annotated the script extract a subset of fields selected by the user and print them into a tabular format. ")
+    ### INPUT - File
+    parser.add_argument('-i','--input',action='store',type=str,help="Input annotated VCF data file (produced by SPNEff or VEP).", required=True, default=None)
+    parser.add_argument('-fi','--fieldsinfo',action='store',type=str,help="List of fields to extract from the field 'INFO' of the VCF (the order matter!) \n[DEFAULT: {:}].".format(DEFAULT_INFO_FIELDS), required=False, default=DEFAULT_INFO_FIELDS)
+    parser.add_argument('-s','--dump_sample',action='store_true', help="Dump the name of the sample [DEFAULT: False].", default=False)
+    
+    ### PARAMETERs
+    parser.add_argument('-o','--output',action='store',type=str,help="Output file path used to store the tabular results .", required=False, default="Table_output.tsv")
+    arg=parser.parse_args()
+
+    INPUT=arg.input
+    ### Load the field for INFO
+    FIELDS_INFO=None
+    if arg.fieldsinfo is not None: 
+        FIELDS_INFO=arg.fieldsinfo.strip().split(",")
+    print("FIELDS INFO: {:}".format(",".join(FIELDS_INFO)))
+        
+    #OUTPUT=arg.output
+    output=arg.output
+    
+    print("INPUT FILE: {:}".format(INPUT))
+    reader=readerVCF_AnnotationFilter_ScorePrediction(INPUT, selectedfieldsINFO=tuple(FIELDS_INFO), output=output)
+    reader.DUMP_SAMPLE_NAME=arg.dump_sample
+    
+    ### Loading of the VCF Data
+    start_time = time.time()
+    counterRow=reader.loadData()
+    print("VCF [{:d}] - Loading time {:.3f} s".format(counterRow,time.time() - start_time))
+    reader.close()
+    
+    print("Type: %s"%reader.vcfType)
+    print("# Dictionary FORMAT")
+    print(reader.dictionaryFormat_toString())
+    print()
+    print("# Dictionary INFO")
+    print(reader.dictionaryInfo_toString())
+    print()
+    

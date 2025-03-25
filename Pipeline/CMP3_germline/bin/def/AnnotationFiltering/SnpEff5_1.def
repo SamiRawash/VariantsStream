@@ -1,0 +1,19 @@
+BootStrap: library 
+
+From: ubuntu:20.04
+
+%post
+    echo "deb http://it.archive.ubuntu.com/ubuntu/ focal main restricted" > /etc/apt/sources.list \
+    && echo "deb http://it.archive.ubuntu.com/ubuntu/ focal-updates main restricted" >> /etc/apt/sources.list \
+    && echo "deb http://it.archive.ubuntu.com/ubuntu/ focal universe" >> /etc/apt/sources.list \
+    && echo "deb http://it.archive.ubuntu.com/ubuntu/ focal-updates universe" >> /etc/apt/sources.list \
+    && echo "deb http://it.archive.ubuntu.com/ubuntu/ focal multiverse" >> /etc/apt/sources.list \
+    && apt-get -y update \
+    && apt-get install -y default-jre \
+    && apt-get install -y wget \
+    && apt-get install -y unzip \
+    && wget https://snpeff.blob.core.windows.net/versions/snpEff_latest_core.zip -P tmp \
+    && cd tmp \
+    && unzip snpEff_latest_core.zip \
+    && mv snpEff /usr/local/bin/ \
+    && rm -r snpEff_latest_core.zip 

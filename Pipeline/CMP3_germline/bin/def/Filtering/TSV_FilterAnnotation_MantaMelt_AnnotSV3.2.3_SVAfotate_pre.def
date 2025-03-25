@@ -1,0 +1,112 @@
+Bootstrap: docker
+From: dceoy/samplot
+
+%setup
+	### Create a folder where download, build the Software
+	echo "	### Create a folder where download, build the Software"
+	mkdir ${SINGULARITY_ROOTFS}/opt/pipelineNeuroVdA
+	mkdir ${SINGULARITY_ROOTFS}/opt/pipelineNeuroVdA/manta_germ
+	mkdir ${SINGULARITY_ROOTFS}/opt/pipelineNeuroVdA/manta_germ/fabioScript
+	mkdir ${SINGULARITY_ROOTFS}/opt/pipelineNeuroVdA/vcf_tools
+	mkdir ${SINGULARITY_ROOTFS}/opt/pipelineNeuroVdA/manta_germ/manta_melt
+	touch ${SINGULARITY_ROOTFS}/opt/pipelineNeuroVdA/__init__.py
+	touch ${SINGULARITY_ROOTFS}/opt/pipelineNeuroVdA/manta_germ/__init__.py
+	touch ${SINGULARITY_ROOTFS}/opt/pipelineNeuroVdA/manta_germ/fabioScript/__init__.py
+	touch ${SINGULARITY_ROOTFS}/opt/pipelineNeuroVdA/vcf_tools/__init__.py
+	touch ${SINGULARITY_ROOTFS}/opt/pipelineNeuroVdA/manta_germ/manta_melt/__init__.py
+
+%files
+
+	&PATH_BIN_LOCAL/bin/def/Filtering/scripts/Main_AnnotSV_withMelt.py /opt/pipelineNeuroVdA/manta_germ/fabioScript/
+	&PATH_BIN_LOCAL/bin/def/Filtering/scripts/provaFilteringannotsvvcf_withMelt.py /opt/pipelineNeuroVdA/manta_germ/fabioScript/
+	&PATH_BIN_LOCAL/bin/def/Filtering/scripts/BamManipulation.py /opt/pipelineNeuroVdA/vcf_tools
+	&PATH_BIN_LOCAL/bin/def/Filtering/scripts/Main_MantaVSMelt.py /opt/pipelineNeuroVdA/manta_germ/manta_melt
+	&PATH_BIN_LOCAL/bin/def/Filtering/scripts/analysis_manta_melt.py /opt/pipelineNeuroVdA/manta_germ/manta_melt
+	&PATH_BIN_LOCAL/bin/def/Filtering/scripts/hg38_total_genesName.bed.gz
+	&PATH_BIN_LOCAL/bin/def/Filtering/scripts/hg38_total_genesName.bed.gz.tbi
+	&PATH_BIN_LOCAL/bin/def/Filtering/scripts/202302_UCSC_CodingExonsPM100Hg38.bed.gz
+	&PATH_BIN_LOCAL/bin/def/Filtering/scripts/202302_UCSC_CodingExonsPM100Hg38.bed.gz.tbi
+
+%post
+	echo "deb http://it.archive.ubuntu.com/ubuntu/ focal main restricted" > /etc/apt/sources.list
+	echo "deb http://it.archive.ubuntu.com/ubuntu/ focal-updates main restricted" >> /etc/apt/sources.list
+	echo "deb http://it.archive.ubuntu.com/ubuntu/ focal universe" >> /etc/apt/sources.list
+
+	export PYTHONPATH=/opt/pipelineNeuroVdA
+
+	### CREATE LINK to the PYTHON SCRIPTs
+	echo "### CREATE LINK to the PYTHON SCRIPTs"
+	ln -s ${PYTHONPATH}/manta_germ/fabioScript/Main_AnnotSV_withMelt.py /usr/bin/filterSV
+	ln -s ${PYTHONPATH}/manta_germ/manta_melt/Main_MantaVSMelt.py /usr/bin/analysisMEI
+	### GIVE EXECUTION Rights
+	echo "### GIVE EXECUTION Rights - REMOVE WRITING Rights"
+	#chmod 555 ${PYTHONPATH}/manta_germ/fabioScript/provaFilteringannotsvvcf.py
+	chmod 555 ${PYTHONPATH}/manta_germ/fabioScript/Main_AnnotSV_withMelt.py
+	chmod 555 ${PYTHONPATH}/manta_germ/manta_melt/Main_MantaVSMelt.py
+
+
+	echo "### Create new folders for binding"
+  	mkdir /home/mydata /home/myresults
+
+	### UPDATE the OS and install Software
+	apt-get update -qq
+	apt-get -y install bzip2 python3 python3-pip
+	#zip zlib1g-dev bash vim git wget
+
+	### Download Python3 Libraries
+	echo "Install Python Libraries"
+	pip3 install pandas pysam numpy matplotlib xlsxwriter
+	# gzip
+
+	### Remove the folder with Temporary Software download
+	#echo "### Remove the folder with Temporary Software download"
+  #rm -r ${MYTMPDIR}
+
+%environment
+	export PYTHONPATH=/opt/pipelineNeuroVdA
+	export FOLDER_INPUT=/home/mydata
+	export FOLDER_OUTPUT=/home/myresults
+	export HOME=/home/mydata
+
+%test
+	echo "Testing Python Version"#! /usr/nbin/env python3
+	python3 --version
+	echo "Python path: $( env | grep 'PYTHON' )"
+	echo "PATH: $PATH"
+	echo "FOLDER_INPUT: ${FOLDER_INPUT}"
+	echo "FOLDER_OUTPUT: ${FOLDER_OUTPUT}"
+
+	echo "FILTER: $( which filterSV )"
+	alias filterSV
+	filterSV -h
+
+	echo "FILTER: $( which analysisMEI )"
+	alias analysisMEI
+	analysisMEI -h
+
+%runscript
+	cd $HOME
+	if [ "$#" -lt "1" ] ; then
+		echo "There are two possible running mode: "
+		echo " - filterSV :  for more details 'filterSV -h' "
+		echo " - analysisMEI :  for more details 'analysisMEI -h' "
+
+	else
+		if [ "$1" = "filterSV" ] || [ "$1" = "analysisMEI" ]; then
+			${@}
+		else
+			echo "Error: command not recognized only 'filterSV' or 'analysisMEI' is allowed."
+		fi
+	fi
+
+%help
+	VCF_AnnotationTools: contains three script for the analysis of VCF.
+
+	1 - filterSV: allow to filter SV using tsv of Manta and Melt, giving in output an excel file, based on a list of genes or not. There is also samplot inside that produces plot for DEL and DUP.
+	            For a full description of the settings: filterSV -h
+	2 - analysisMEI: allow to filter MEIs and get a consensus comparing Manta and Melt output. A list of genes of interest can be provided.
+	            For a full description of the settings: analysisMEI -h
+
+	Suggested folder for binding input and outputs are:
+	INPUT: /home/mydata
+	OUTPUT: /home/myresults

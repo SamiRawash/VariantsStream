@@ -1,0 +1,46 @@
+Bootstrap: docker
+
+From: ubuntu:20.04
+
+
+%post
+export DEBIAN_FRONTEND=noninteractive
+sw_f="/swf"
+mkdir $sw_f
+cd $sw_f
+apt-get update -y && apt-get -y install git tcl curl g++ libz-dev libbz2-dev tcllib unzip zlib1g-dev liblzma-dev make wget tar python python2 python3 bash nano
+
+#opz1
+git clone https://github.com/lgmgeo/AnnotSV.git
+cd $sw_f/AnnotSV
+make PREFIX=. install
+make PREFIX=. install-human-annotation
+make PREFIX=. install-mouse-annotation
+export ANNOTSV=/swf/AnnotSV
+
+cd $sw_f
+wget https://github.com/samtools/bcftools/releases/download/1.17/bcftools-1.17.tar.bz2
+tar -jvxf bcftools-1.17.tar.bz2
+cd bcftools-1.17    # and similarly for bcftools and htslib
+./configure --prefix=$sw_f
+make
+make install
+
+cd $sw_f
+wget https://github.com/arq5x/bedtools2/releases/download/v2.30.0/bedtools-2.30.0.tar.gz
+tar -zxvf bedtools-2.30.0.tar.gz
+cd bedtools2
+make
+
+#cd $sw_f
+#git clone git://github.com/samtools/htslib.git
+#git clone git://github.com/samtools/bcftools.git
+#cd bcftools
+#make
+#export BCFTOOLS_PLUGINS=/swf/bcftools/plugins/
+
+%environment
+export ANNOTSV=/swf/AnnotSV
+#export BCFTOOLS_PLUGINS=/swf/bcftools/plugins
+
+unset DEBIAN_FRONTEND
